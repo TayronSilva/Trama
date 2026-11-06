@@ -1,7 +1,7 @@
 import AuthForm from '../../../components/AuthForm';
 
 export const metadata = {
-  title: 'Entrar · Trama',
+  title: 'Entrar',
   description: 'Acesse seu estúdio de conteúdo e colabore com sua equipe.',
 };
 

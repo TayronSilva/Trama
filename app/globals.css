@@ -415,12 +415,13 @@ h3 {
 }
 
 .sidebar-footer {
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  flex-direction: column;
   margin-top: auto;
-  padding: 17px 8px 0;
+  padding: 14px 0 0;
   border-top: 1px solid rgba(255, 255, 255, 0.09);
+  width: 100%;
 }
 
 .env-dot {
@@ -433,14 +434,14 @@ h3 {
   box-shadow: 0 0 0 3px rgba(111, 191, 137, 0.12);
 }
 
-.sidebar-footer strong {
+.sidebar-env-notice strong {
   display: block;
   color: #e5ece7;
   font-size: 11.5px;
   font-weight: 600;
 }
 
-.sidebar-footer p {
+.sidebar-env-notice p {
   margin: 3px 0 0;
   color: #8c9d92;
   font-size: 10.5px;
@@ -2929,17 +2930,27 @@ h3 {
 /* Popover do Perfil / Equipe — Design Claro & Alto Contraste */
 .profile-popover {
   position: absolute;
-  bottom: calc(100% + 12px);
+  bottom: calc(100% + 10px);
   left: 0;
-  width: 290px;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
   background: #ffffff;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-md);
-  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.06);
-  z-index: 100;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
   overflow: hidden;
   animation: popoverFadeIn 0.15s ease-out;
-  color: var(--ink);
+  color: #16211c;
+}
+
+.profile-popover strong {
+  color: #16211c !important;
+}
+
+.profile-popover p {
+  color: #526056 !important;
 }
 
 @keyframes popoverFadeIn {
@@ -2954,7 +2965,7 @@ h3 {
 }
 
 .popover-header {
-  padding: 14px 16px;
+  padding: 12px 14px;
   background: var(--surface-raised);
   border-bottom: 1px solid var(--line);
 }
@@ -2962,13 +2973,13 @@ h3 {
 .popover-user {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .popover-avatar {
-  width: 38px;
-  height: 38px;
-  font-size: 15px;
+  width: 34px;
+  height: 34px;
+  font-size: 14px;
   font-weight: 700;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
@@ -2980,17 +2991,17 @@ h3 {
 }
 
 .popover-name-text {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 700;
-  color: var(--ink);
+  color: #16211c !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .popover-email-text {
-  font-size: 11.5px;
-  color: var(--muted);
+  font-size: 11px;
+  color: #526056 !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3006,8 +3017,8 @@ h3 {
 }
 
 .popover-tab {
-  padding: 7px 10px;
-  font-size: 12px;
+  padding: 6px 8px;
+  font-size: 11.5px;
   font-weight: 600;
   color: var(--muted);
   border: none;
@@ -3017,7 +3028,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
   transition: all var(--transition);
 }
 
@@ -3032,26 +3043,28 @@ h3 {
 }
 
 .tab-pill {
-  padding: 1px 6px;
+  padding: 1px 5px;
   background: var(--accent);
   color: #ffffff;
   border-radius: 10px;
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
 }
 
 .popover-body {
-  padding: 14px;
-  max-height: 300px;
+  padding: 12px 14px;
+  max-height: 280px;
   overflow-y: auto;
+  overflow-x: hidden;
   background: #ffffff;
+  scrollbar-width: thin;
 }
 
 .popover-section-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
@@ -3060,20 +3073,24 @@ h3 {
 }
 
 .workspace-badge {
-  padding: 2px 7px;
+  padding: 2px 6px;
   border-radius: 4px;
   background: var(--paper-deep);
   border: 1px solid var(--line);
   color: var(--ink);
   text-transform: none;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 600;
+  max-width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .popover-members-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 16px 0;
+  margin: 0 0 14px 0;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -3083,11 +3100,11 @@ h3 {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 8px;
+  padding: 5px 8px;
   border-radius: 6px;
   background: var(--paper);
   border: 1px solid var(--line);
-  font-size: 12.5px;
+  font-size: 12px;
 }
 
 .member-dot {
@@ -3107,32 +3124,36 @@ h3 {
 }
 
 .member-role {
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--muted);
   background: var(--paper-deep);
-  padding: 2px 6px;
+  padding: 2px 5px;
   border-radius: 4px;
+  flex: none;
 }
 
 .invite-form {
-  padding-top: 12px;
+  padding-top: 10px;
   border-top: 1px solid var(--line);
 }
 
-.invite-input-row {
+.invite-fields {
   display: flex;
+  flex-direction: column;
   gap: 6px;
+  width: 100%;
 }
 
 .invite-input {
-  flex: 1;
-  padding: 6px 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 9px;
   border-radius: 6px;
   background: var(--paper);
   border: 1px solid var(--line-strong);
   color: var(--ink);
-  font-size: 12px;
+  font-size: 11.5px;
   font-family: inherit;
 }
 
@@ -3143,7 +3164,9 @@ h3 {
 }
 
 .invite-submit-btn {
-  padding: 6px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 10px;
   border-radius: 6px;
   background: var(--ink);
   color: #ffffff;
@@ -3151,6 +3174,7 @@ h3 {
   font-size: 11.5px;
   font-weight: 600;
   cursor: pointer;
+  text-align: center;
   transition: opacity var(--transition);
 }
 
@@ -3186,14 +3210,14 @@ h3 {
   display: block;
   font-size: 13px;
   font-weight: 700;
-  color: var(--ink);
+  color: #16211c !important;
   margin-bottom: 4px;
 }
 
 .intro-copy {
   font-size: 12px;
-  color: var(--muted);
-  line-height: 1.4;
+  color: #526056 !important;
+  line-height: 1.45;
   margin: 0;
 }
 
@@ -3283,7 +3307,7 @@ h3 {
 .notif-title {
   font-size: 12.5px;
   font-weight: 700;
-  color: var(--ink);
+  color: #16211c !important;
 }
 
 .notif-dot {
@@ -3295,7 +3319,7 @@ h3 {
 
 .notif-msg {
   font-size: 12px;
-  color: #374151;
+  color: #26382e !important;
   margin: 0 0 6px 0;
   line-height: 1.45;
 }
@@ -3303,14 +3327,14 @@ h3 {
 .notif-time {
   font-size: 10.5px;
   font-weight: 500;
-  color: #6b7280;
+  color: #526056 !important;
 }
 
 .notifications-empty {
   text-align: center;
   padding: 24px 0;
   font-size: 12.5px;
-  color: var(--muted);
+  color: #526056 !important;
 }
 
 /* Popover Footer & Logout de Alto Contraste */
@@ -3326,10 +3350,10 @@ h3 {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: transparent;
-  border: 1px solid transparent;
-  color: #b91c1c;
-  font-size: 12.5px;
+  background: #ffffff;
+  border: 1px solid #fecaca;
+  color: #dc2626 !important;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   padding: 7px;
@@ -3339,8 +3363,8 @@ h3 {
 
 .popover-logout-btn:hover {
   background: #fee2e2;
-  border-color: #fca5a5;
-  color: #991b1b;
+  border-color: #f87171;
+  color: #b91c1c !important;
 }
 
 /* Sidebar Channels Notice */

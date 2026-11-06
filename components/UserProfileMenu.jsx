@@ -252,7 +252,7 @@ export default function UserProfileMenu() {
                       <div className="popover-section-label">
                         <span>Convidar por e-mail</span>
                       </div>
-                      <div className="invite-input-row">
+                      <div className="invite-fields">
                         <input
                           type="email"
                           required
@@ -266,7 +266,7 @@ export default function UserProfileMenu() {
                           disabled={loadingInvite}
                           className="invite-submit-btn"
                         >
-                          {loadingInvite ? '...' : 'Convidar'}
+                          {loadingInvite ? 'Enviando...' : 'Convidar membro'}
                         </button>
                       </div>
                       {inviteStatus && (
