@@ -1,44 +1,42 @@
-# Trama TODO — Sprint 2
+# Trama TODO — Sprint 3
 
-## Foundation
+## Encoding (verificado)
 
-- [x] 1. Back up `data/trama.db` before schema work
-- [x] 2. Add failing tests for update, delete, duplicate, tags, limits and migration
-- [x] 3. Add `tags` column, channel limits and migration helper to `lib/store.js`
-- [x] 4. Split legacy multi-channel rows into one row per channel; keep migration idempotent
-- [x] 5. Make `createIdeas` fan out one row per channel; keep `createIdea` single-channel
+- [x] 1. Verificar lib/channels.js por caractere quebrado — ã, ç, í já estão corretos
 
-## CRUD and actions
+## lib/ai.js (server-only, testes sem rede)
 
-- [x] 6. Implement `updateIdea`, `deleteIdea` and `duplicateIdea`
-- [x] 7. Add `updateIdeaAction`, `deleteIdeaAction` and `duplicateIdeaAction`
-- [x] 8. Keep schedule/publish independent per row
+- [x] 2. Criar lib/ai.js com funções puras: buildAdaptPrompt, buildHooksPrompt, parseHooksResponse, getAiConfig, isAiAvailable
+- [x] 3. Criar funções async: adaptToChannel (timeout 15s, 1 retry, valida countCharacters), threeHooks
+- [x] 4. Chamada REST para Gemini (generativelanguage.googleapis.com), header x-goog-api-key, sem SDK
+- [x] 5. Palavras proibidas no prompt: desbloqueie, eleve, mergulhe, revolucione, potencialize, alavanque, jornada, no mundo de hoje, não é apenas, divisor de águas, game changer
 
-## Tags and limits
+## Actions (app/actions.js)
 
-- [x] 9. Normalize tags (trim, no empty, no duplicates)
-- [x] 10. Add tags field and live chips to Create
-- [x] 11. Add tag filters to library and queue with a clear-filter link
-- [x] 12. Add channel `limit` and preview label to `lib/channels.js`
-- [x] 13. Add live character counter and per-channel preview cards
-- [x] 14. Block schedule/publish when text exceeds the channel limit
+- [x] 6. adaptIdeaAction({ content, channel }) → { ok, text?, error? }
+- [x] 7. hooksIdeaAction({ content }) → { ok, hooks?, error? }
+- [x] 8. getAiStatus() → { available, provider, reason }
 
-## UI
+## UI (components/Composer.jsx)
 
-- [x] 15. Inline editor in library and queue, without changing an existing schedule
-- [x] 16. Two-step delete confirmation without modal
-- [x] 17. Duplicate action in library and queue
-- [x] 18. Show each channel as its own row in queue and calendar
-- [x] 19. Responsive polish at 390px and WCAG AA contrast check
+- [x] 9. Botão "Adaptar para o canal" — habilitado só com exatamente 1 canal selecionado
+- [x] 10. Botão "Três aberturas" — 3 opções clicáveis que substituem a primeira frase
+- [x] 11. Sem GEMINI_API_KEY → ambos desabilitados, aviso "Configure GEMINI_API_KEY no .env.local"
+- [x] 12. Chama actions via await (não redirect)
 
-## Validation
+## Testes (test/ai.test.js, sem rede)
 
-- [x] 20. `npm test` green
-- [x] 21. `npm run build` green
-- [x] 22. Playwright: create 2 channels, edit, duplicate, filter, delete, publish, calendar, limits
-- [x] 23. Console: 0 errors, 0 warnings, 0 failed requests
-- [x] 24. New desktop and mobile screenshots
+- [x] 13. buildAdaptPrompt inclui limite, nome do canal e palavras proibidas
+- [x] 14. buildHooksPrompt inclui o texto original
+- [x] 15. parseHooksResponse devolve 3 strings de 3 linhas
+- [x] 16. parseHooksResponse com < 3 linhas → erro legível definido
+- [x] 17. getAiConfig sem env → available: false
 
-## Postponed
+## Validação
 
-- [ ] Item 6 — AI provider, prompt builders and adaptation actions (postponed by request)
+- [x] 18. npm test verde (21 + testes de IA)
+- [x] 19. npm run build verde
+- [x] 20. Playwright sem chave — botões desabilitados, aviso visível, console limpo
+- [x] 21. Novas screenshots em assets/ (sprint3-*.png)
+- [x] 22. Atualizar README.md com galeria de IA
+- [x] 23. python -m graphify extract . --code-only

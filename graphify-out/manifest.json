@@ -1,9 +1,9 @@
 {
   "app/actions.js": {
-    "mtime": 1793984637.1039908,
-    "seen": 1793985452.3993397,
-    "ast_hash": "afbfb65bda27b809263277b6bd2fcd9d",
-    "semantic_hash": "afbfb65bda27b809263277b6bd2fcd9d"
+    "mtime": 1793987229.6877427,
+    "seen": 1793991755.1429286,
+    "ast_hash": "3a342aab5c75074de6eab04a5cb1dda5",
+    "semantic_hash": "3a342aab5c75074de6eab04a5cb1dda5"
   },
   "app/calendar/page.js": {
     "mtime": 1793984722.432535,
@@ -119,10 +119,10 @@
     "semantic_hash": "61e8ce9807c112ddbe6d3ca238805277"
   },
   "test/store.test.js": {
-    "mtime": 1793984617.8156898,
-    "seen": 1793985452.4018314,
-    "ast_hash": "8e43619a6c39bf9f5db08575ae9b295f",
-    "semantic_hash": "8e43619a6c39bf9f5db08575ae9b295f"
+    "mtime": 1793985735.1250465,
+    "seen": 1793991755.1478012,
+    "ast_hash": "8544d3afe0b33c3108683c39ce94df64",
+    "semantic_hash": "8544d3afe0b33c3108683c39ce94df64"
   },
   "trama-create.yml": {
     "mtime": 1793983184.5870135,
@@ -132,10 +132,10 @@
     "ast_empty": true
   },
   "components/Composer.jsx": {
-    "mtime": 1793984671.3886857,
-    "seen": 1793985452.3998516,
-    "ast_hash": "e8118ffd50eaa176bda71f85d5f43f79",
-    "semantic_hash": "e8118ffd50eaa176bda71f85d5f43f79"
+    "mtime": 1793988425.1313112,
+    "seen": 1793991755.1442668,
+    "ast_hash": "a2ee246b13ee1158b564214233c2f541",
+    "semantic_hash": "a2ee246b13ee1158b564214233c2f541"
   },
   "components/DeleteButton.jsx": {
     "mtime": 1793984685.176996,
@@ -160,5 +160,17 @@
     "seen": 1793985452.4014227,
     "ast_hash": "78d279456b0dafef3a4616e1145711cb",
     "semantic_hash": "78d279456b0dafef3a4616e1145711cb"
+  },
+  "lib/ai.js": {
+    "mtime": 1793989051.4500775,
+    "seen": 1793991755.1463022,
+    "ast_hash": "50a7dd6df0be0d546d9f79f18b8475d8",
+    "semantic_hash": "50a7dd6df0be0d546d9f79f18b8475d8"
+  },
+  "test/ai.test.js": {
+    "mtime": 1793987281.6004207,
+    "seen": 1793991755.147504,
+    "ast_hash": "977a6d9ce63953daffec25e5f1924d5e",
+    "semantic_hash": "977a6d9ce63953daffec25e5f1924d5e"
   }
 }

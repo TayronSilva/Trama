@@ -17,7 +17,7 @@
 ![React](https://img.shields.io/badge/React%2019.3-61dafb?style=flat-square)
 ![SQLite](https://img.shields.io/badge/SQLite-local-003b57?style=flat-square)
 ![Node](https://img.shields.io/badge/Node%2026-339933?style=flat-square)
-![Testes](https://img.shields.io/badge/testes-21%20passando-brightgreen?style=flat-square)
+![Testes](https://img.shields.io/badge/testes-28%20passando-brightgreen?style=flat-square)
 
 </div>
 
@@ -53,6 +53,12 @@
 
 ![Edit open](assets/sprint2-edit-open.png)
 
+### IA opcional
+
+| Sem chave | Texto adaptado | Três aberturas |
+| :---: | :---: | :---: |
+| ![IA desabilitada sem chave](assets/sprint3-ai-no-key.png) | ![Texto adaptado para X](assets/sprint3-ai-adapt-x.png) | ![Opções de abertura](assets/sprint3-ai-hooks-x.png) |
+
 ---
 
 ## ✨ Funcionalidades
@@ -78,9 +84,10 @@
 - Contador ao vivo, prévia com corte visual e bloqueio de agendamento/publicação acima do limite
 - Migração automática e idempotente com backup antes de alterar o schema
 
-### 🔒 100% local
+### 🔒 Local por padrão
 - Banco SQLite em `data/trama.db` (WAL), sem servidor externo
-- Sem autenticação, sem telemetria, sem rede — seus dados não saem da máquina
+- Sem autenticação nem telemetria. Sem `GEMINI_API_KEY`, a IA fica desabilitada e nenhum texto é enviado para fora.
+- Com a IA habilitada, o texto é enviado à API Gemini para gerar sugestões; a chave permanece no servidor.
 
 ---
 
@@ -88,9 +95,11 @@
 
 ```powershell
 npm install
-npm test        # 21 testes (node --test)
+npm test        # 28 testes (node --test)
 npm run dev     # http://localhost:3000
 ```
+
+Para habilitar a IA opcional, crie `.env.local` com `GEMINI_API_KEY=sua_chave`. O modelo padrão é `gemini-3.6-flash`; `GEMINI_MODEL` permite escolher outro modelo Gemini.
 
 Produção:
 
@@ -107,7 +116,7 @@ npm start
 | --- | --- |
 | **Sprint 1 — MVP** | ✅ Create → Publish → Calendar completo |
 | **Sprint 2** | ✅ Um registro por canal, tags, limites e prévia por canal, edição/duplicação/exclusão |
-| **Sprint 3 — IA opcional** | 🔜 Adaptar texto por canal + 3 aberturas (Gemini), botão desabilitado sem chave |
+| **Sprint 3 — IA opcional** | ✅ Adaptar texto por canal + 3 aberturas (Gemini), botões desabilitados sem chave |
 | Futuro | Kanban, threads, primeiro comentário, insights locais |
 
 ---
@@ -119,7 +128,7 @@ npm start
 | Framework | Next.js 16.4.5 (App Router) + React 19.3.1 |
 | Banco | SQLite via `node:sqlite` (DatabaseSync) |
 | Datas | Strings locais `YYYY-MM-DDTHH:mm` (sem drift de fuso) |
-| Testes | `node --test` (21 testes) |
+| Testes | `node --test` (28 testes) |
 | Validação | Playwright CLI (fluxo completo, desktop + mobile) |
 
 ---

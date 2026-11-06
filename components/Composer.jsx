@@ -1,15 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CHANNELS, countCharacters } from '../lib/channels';
 import { normalizeTags } from '../lib/tags';
 import { ChannelOptions } from './Chrome';
 import { Icon } from './Icons';
+import {
+  adaptIdeaAction,
+  hooksIdeaAction,
+  getAiStatus,
+} from '../app/actions';
 
 export function Composer({ action }) {
   const [content, setContent] = useState('');
   const [tagText, setTagText] = useState('');
   const [selected, setSelected] = useState([]);
+  const [aiStatus, setAiStatus] = useState(null);
+  const [aiError, setAiError] = useState(null);
+  const [adapting, setAdapting] = useState(false);
+  const [hookOptions, setHookOptions] = useState([]);
+  const [hooksError, setHooksError] = useState(null);
 
   const characters = countCharacters(content);
   const tags = normalizeTags(tagText);
@@ -22,11 +32,56 @@ export function Composer({ action }) {
     null,
   );
   const overNarrowest = narrowest ? characters > narrowest.limit : false;
+  const aiAvailable = aiStatus ? aiStatus.available : false;
+  const singleChannel = selectedChannels.length === 1;
+
+  useEffect(() => {
+    getAiStatus()
+      .then(setAiStatus)
+      .catch(() =>
+        setAiStatus({ available: false, reason: 'Erro ao verificar IA.' }),
+      );
+  }, []);
 
   function toggleChannel(id, checked) {
     setSelected((current) =>
       checked ? [...current, id] : current.filter((item) => item !== id),
     );
+  }
+
+  function replaceFirstSentence(nextText, hook) {
+    const match = nextText.match(/^([^.!?]*[.!?]?)\s*(.*)$/s);
+    if (!match) return hook;
+    const rest = match[2] ? ` ${match[2]}` : '';
+    return `${hook}${rest}`;
+  }
+
+  async function handleAdapt() {
+    if (!singleChannel) return;
+    setAdapting(true);
+    setAiError(null);
+    const channel = selectedChannels[0].id;
+    try {
+      const result = await adaptIdeaAction({ content, channel });
+      if (result.ok) {
+        setContent(result.text);
+      } else {
+        setAiError(result.error || 'Erro ao adaptar o texto.');
+      }
+    } finally {
+      setAdapting(false);
+    }
+  }
+
+  async function handleHooks() {
+    setHookOptions([]);
+    setHooksError(null);
+    const result = await hooksIdeaAction({ content });
+    if (result.ok) {
+      setHookOptions(result.hooks);
+    } else {
+      setHooksError(result.error || 'Erro ao gerar aberturas.');
+    }
   }
 
   return (
@@ -92,6 +147,94 @@ export function Composer({ action }) {
           <legend>Canais de destino</legend>
           <ChannelOptions selected={selected} onChange={toggleChannel} />
         </fieldset>
+
+        {aiStatus ? (
+          <div className="ai-tools">
+            <p className="ai-status">
+              {aiAvailable ? (
+                <span>IA disponível: {aiStatus.model}</span>
+              ) : (
+                <span className="ai-warn">
+                  Configure GEMINI_API_KEY no .env.local para usar a IA.
+                </span>
+              )}
+            </p>
+
+            <div className="ai-buttons">
+              <button
+                type="button"
+                className={`button quiet small${
+                  !aiAvailable || !singleChannel ? ' disabled' : ''
+                }`}
+                disabled={!aiAvailable || !singleChannel || adapting}
+                title={
+                  !aiAvailable
+                    ? 'Configure GEMINI_API_KEY no .env.local.'
+                    : !singleChannel
+                    ? 'Selecione exatamente um canal para adaptar.'
+                    : undefined
+                }
+                onClick={handleAdapt}
+              >
+                <Icon name="sparkles" size={14} />
+                {adapting ? 'Adaptando…' : 'Adaptar para o canal'}
+              </button>
+
+              <button
+                type="button"
+                className={`button quiet small${
+                  !aiAvailable ? ' disabled' : ''
+                }`}
+                disabled={!aiAvailable}
+                title={
+                  !aiAvailable
+                    ? 'Configure GEMINI_API_KEY no .env.local.'
+                    : undefined
+                }
+                onClick={handleHooks}
+              >
+                <Icon name="sparkles" size={14} />
+                Três aberturas
+              </button>
+            </div>
+
+            {aiError && (
+              <p className="ai-error" role="alert">
+                {aiError}
+              </p>
+            )}
+
+            {hooksError && (
+              <p className="ai-error" role="alert">
+                {hooksError}
+              </p>
+            )}
+
+            {hookOptions.length > 0 && (
+              <div className="ai-hooks">
+                <span className="ai-hooks-label">Escolha uma abertura:</span>
+                <div className="ai-hook-list">
+                  {hookOptions.map((hook, index) => (
+                    <button
+                      type="button"
+                      key={index}
+                      className="button quiet small ai-hook"
+                      onClick={() => {
+                        setContent(
+                          replaceFirstSentence(content, hook),
+                        );
+                        setHookOptions([]);
+                      }}
+                    >
+                      {hook}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : null}
+
         <button type="submit" className="button primary">
           <Icon name="plus" size={16} />
           Salvar ideia

@@ -2000,7 +2000,7 @@ h3 {
   flex-wrap: wrap;
   padding: 11px 18px;
   color: var(--muted);
-  background: #f7f4ed;
+  background: var(--surface);
   border-top: 1px solid var(--line);
   font-size: 11.5px;
 }
@@ -2446,6 +2446,75 @@ h3 {
   .stat strong {
     font-size: 23px;
   }
+}
+
+/* IA opcional — Composer */
+
+.ai-tools {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: #f7f4ed;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.ai-status {
+  margin: 0 0 10px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.ai-warn {
+  color: var(--danger);
+}
+
+.ai-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.ai-buttons .button.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.ai-error {
+  margin: 0 0 10px;
+  font-size: 11.5px;
+  color: var(--danger);
+  background: var(--danger-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+}
+
+.ai-hooks {
+  margin-top: 8px;
+}
+
+.ai-hooks-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.ai-hook-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ai-hook {
+  text-align: left;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 @media (prefers-reduced-motion: reduce) {

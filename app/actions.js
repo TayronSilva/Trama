@@ -130,3 +130,33 @@ export async function publishIdeaAction(formData) {
   refresh();
   redirect('/publish?ok=publicado');
 }
+
+export async function adaptIdeaAction({ content, channel }) {
+  const { adaptToChannel } = await import('../lib/ai.js');
+  try {
+    return await adaptToChannel(content, channel);
+  } catch (cause) {
+    return {
+      ok: false,
+      error:
+        cause instanceof Error ? cause.message : 'Erro ao adaptar o texto.',
+    };
+  }
+}
+
+export async function hooksIdeaAction({ content }) {
+  const { threeHooks } = await import('../lib/ai.js');
+  try {
+    return await threeHooks(content);
+  } catch (cause) {
+    return {
+      ok: false,
+      error: cause instanceof Error ? cause.message : 'Erro ao gerar aberturas.',
+    };
+  }
+}
+
+export async function getAiStatus() {
+  const { getAiConfig } = await import('../lib/ai.js');
+  return getAiConfig();
+}
