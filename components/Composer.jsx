@@ -152,12 +152,7 @@ export function Composer({ action }) {
           <div className="ai-tools">
             <p className="ai-status">
               {aiAvailable ? (
-                <>
-                  <span>IA disponível</span>
-                  <span className="ai-model">
-                    {aiStatus.provider} · {aiStatus.model}
-                  </span>
-                </>
+                <span>IA disponível</span>
               ) : (
                 <span className="ai-warn">
                   Configure GEMINI_API_KEY no .env.local para usar a IA.
