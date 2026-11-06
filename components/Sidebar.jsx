@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { CHANNELS, DEFAULT_HANDLES, formatHandle } from '../lib/channels';
 import { BrandMark, Icon } from './Icons';
+import UserProfileMenu from './UserProfileMenu';
 
 const NAV = [
   { href: '/create', label: 'Criar', hint: 'Ideias', icon: 'pen' },
@@ -158,11 +159,7 @@ export default function Sidebar() {
       </div>
 
       <div className="sidebar-footer">
-        <span className="env-dot" aria-hidden="true" />
-        <div>
-          <strong>Ambiente local</strong>
-          <p>Canais simulados. Nada é publicado de verdade.</p>
-        </div>
+        <UserProfileMenu />
       </div>
     </aside>
   );

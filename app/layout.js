@@ -1,4 +1,5 @@
 import { Bricolage_Grotesque, Schibsted_Grotesk } from 'next/font/google';
+import { headers } from 'next/headers';
 import Sidebar from '../components/Sidebar';
 import './globals.css';
 
@@ -29,19 +30,32 @@ export const viewport = {
   themeColor: '#16211c',
 };
 
-export default function RootLayout({ children }) {
+// Rotas que NÃO exibem a sidebar (páginas de auth)
+const AUTH_PATHS = ['/login', '/auth'];
+
+export default async function RootLayout({ children }) {
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') || '';
+  const isAuth = AUTH_PATHS.some((p) => pathname.startsWith(p));
+
   return (
     <html lang="pt-BR" className={`${display.variable} ${body.variable}`}>
       <body>
-        <a className="skip-link" href="#conteudo">
-          Pular para o conteúdo
-        </a>
-        <div className="app-shell">
-          <Sidebar />
-          <main id="conteudo" className="main">
-            {children}
-          </main>
-        </div>
+        {isAuth ? (
+          children
+        ) : (
+          <>
+            <a className="skip-link" href="#conteudo">
+              Pular para o conteúdo
+            </a>
+            <div className="app-shell">
+              <Sidebar />
+              <main id="conteudo" className="main">
+                {children}
+              </main>
+            </div>
+          </>
+        )}
       </body>
     </html>
   );
