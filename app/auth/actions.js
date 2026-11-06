@@ -275,3 +275,61 @@ export async function markNotificationReadAction(notificationId) {
 
   return { ok: true };
 }
+
+export async function getUserChannelHandles() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { ok: false, error: 'Nao autenticado.', handles: {} };
+  }
+
+  const { data, error } = await supabase
+    .from('user_channel_handles')
+    .select('channel_id, handle')
+    .eq('user_id', user.id);
+
+  if (error) {
+    return { ok: false, error: error.message, handles: {} };
+  }
+
+  const handles = {};
+  (data ?? []).forEach((row) => {
+    handles[row.channel_id] = row.handle;
+  });
+
+  return { ok: true, handles };
+}
+
+export async function saveUserChannelHandle({ channelId, handle }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { ok: false, error: 'Nao autenticado.' };
+  }
+
+  const trimmed = String(handle ?? '').trim();
+  if (!trimmed) {
+    return { ok: false, error: 'Informe um handle valido.' };
+  }
+
+  // Upsert: insere se nao existir, atualiza se ja existir
+  const { error } = await supabase.from('user_channel_handles').upsert(
+    {
+      user_id: user.id,
+      channel_id: channelId,
+      handle: trimmed,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id, channel_id' }
+  );
+
+  if (error) {
+    return { ok: false, error: error.message };
+  }
+
+  return { ok: true };
+}
