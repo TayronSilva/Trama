@@ -1,0 +1,12 @@
+node_modules/
+.next/
+data/*.db
+data/*.db-*
+data/backup-*.db
+data/backup-*.db-*
+.env
+.env.local
+.env*.local
+.playwright-cli/
+.vercel/
+graphify-out/cache/

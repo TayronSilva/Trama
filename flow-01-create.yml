@@ -1,0 +1,178 @@
+- generic [active] [ref=f3e1]:
+  - link "Pular para o conteúdo" [ref=f3e2] [cursor=pointer]:
+    - /url: "#conteudo"
+  - generic [ref=f3e3]:
+    - complementary [ref=f3e4]:
+      - link "Trama, ir para a biblioteca" [ref=f3e5] [cursor=pointer]:
+        - /url: /create
+        - generic [ref=f3e10]:
+          - generic [ref=f3e11]: trama
+          - generic [ref=f3e12]: estúdio de conteúdo
+      - navigation "Navegação principal" [ref=f3e13]:
+        - link "Criar Ideias" [ref=f3e14] [cursor=pointer]:
+          - /url: /create
+          - generic [ref=f3e18]: Criar
+          - generic [ref=f3e19]: Ideias
+        - link "Publicar Fila" [ref=f3e20] [cursor=pointer]:
+          - /url: /publish
+          - generic [ref=f3e24]: Publicar
+          - generic [ref=f3e25]: Fila
+        - link "Calendário Ritmo" [ref=f3e26] [cursor=pointer]:
+          - /url: /calendar
+          - generic [ref=f3e30]: Calendário
+          - generic [ref=f3e31]: Ritmo
+      - generic [ref=f3e32]:
+        - generic [ref=f3e33]:
+          - generic [ref=f3e34]: Canais conectados
+          - generic [ref=f3e35]: "4"
+        - list [ref=f3e36]:
+          - listitem [ref=f3e37]:
+            - generic [ref=f3e39]: Instagram
+            - generic [ref=f3e40]: "@trama.studio"
+          - listitem [ref=f3e41]:
+            - generic [ref=f3e43]: LinkedIn
+            - generic [ref=f3e44]: trama-studio
+          - listitem [ref=f3e45]:
+            - generic [ref=f3e47]: X
+            - generic [ref=f3e48]: "@trama"
+          - listitem [ref=f3e49]:
+            - generic [ref=f3e51]: TikTok
+            - generic [ref=f3e52]: "@trama.studio"
+      - generic [ref=f3e55]:
+        - strong [ref=f3e56]: Ambiente local
+        - paragraph [ref=f3e57]: Canais simulados. Nada é publicado de verdade.
+    - main [ref=f3e58]:
+      - generic [ref=f3e59]:
+        - generic [ref=f3e60]:
+          - generic [ref=f3e61]:
+            - paragraph [ref=f3e62]: sexta-feira, 6 de novembro
+            - heading "Sua biblioteca de ideias" [level=1] [ref=f3e63]
+            - paragraph [ref=f3e64]: Anote o que ainda está solto. Escolha os canais e agende quando o texto estiver pronto.
+          - generic "Resumo da biblioteca" [ref=f3e65]:
+            - generic [ref=f3e66]:
+              - strong [ref=f3e67]: "3"
+              - generic [ref=f3e68]: na biblioteca
+            - generic [ref=f3e69]:
+              - strong [ref=f3e70]: "2"
+              - generic [ref=f3e71]: na fila
+        - generic [ref=f3e72]:
+          - generic [ref=f3e73]:
+            - region [ref=f3e74]:
+              - generic [ref=f3e75]:
+                - generic [ref=f3e76]:
+                  - generic [ref=f3e77]: Nova ideia
+                  - heading "O que vale registrar hoje?" [level=2] [ref=f3e81]
+                - generic [ref=f3e82]: Rascunho
+              - generic [ref=f3e83]:
+                - generic [ref=f3e84]: Conteúdo da ideia
+                - textbox "Conteúdo da ideia" [ref=f3e85]:
+                  - /placeholder: Uma frase, um gancho, um ângulo que merece ser explorado...
+                - generic [ref=f3e86]:
+                  - group "Canais de destino" [ref=f3e87]:
+                    - generic [ref=f3e89]:
+                      - generic [ref=f3e90] [cursor=pointer]:
+                        - checkbox "Instagram"
+                        - generic [ref=f3e91]: Instagram
+                      - generic [ref=f3e94] [cursor=pointer]:
+                        - checkbox "LinkedIn"
+                        - generic [ref=f3e95]: LinkedIn
+                      - generic [ref=f3e98] [cursor=pointer]:
+                        - checkbox "X"
+                        - generic [ref=f3e99]: X
+                      - generic [ref=f3e102] [cursor=pointer]:
+                        - checkbox "TikTok"
+                        - generic [ref=f3e103]: TikTok
+                  - button "Salvar ideia" [ref=f3e106] [cursor=pointer]
+            - region [ref=f3e109]:
+              - generic [ref=f3e110]:
+                - generic [ref=f3e111]:
+                  - generic [ref=f3e112]: Biblioteca
+                  - heading "Tudo que ainda pode virar post" [level=2] [ref=f3e116]
+                - generic [ref=f3e117]: 5 itens
+              - list [ref=f3e118]:
+                - listitem [ref=f3e119]:
+                  - generic [ref=f3e121]:
+                    - generic [ref=f3e122]:
+                      - paragraph [ref=f3e123]: Qual ferramenta mudou a sua forma de trabalhar este ano?
+                      - generic [ref=f3e124]: Agendado
+                    - generic [ref=f3e126]:
+                      - generic [ref=f3e127]:
+                        - generic [ref=f3e128]: Instagram
+                        - generic [ref=f3e130]: X
+                      - generic [ref=f3e132]: 11 nov, 18:15
+                    - generic [ref=f3e136]:
+                      - group [ref=f3e137]:
+                        - generic "Reagendar" [ref=f3e138] [cursor=pointer]
+                      - button "Voltar para ideias" [ref=f3e143] [cursor=pointer]
+                - listitem [ref=f3e144]:
+                  - generic [ref=f3e146]:
+                    - generic [ref=f3e147]:
+                      - paragraph [ref=f3e148]: "Checklist de lançamento: o que publicar na semana que antecede o lançamento."
+                      - generic [ref=f3e149]: Agendado
+                    - generic [ref=f3e151]:
+                      - generic [ref=f3e152]: LinkedIn
+                      - generic [ref=f3e155]: 8 nov, 09:30
+                    - generic [ref=f3e159]:
+                      - group [ref=f3e160]:
+                        - generic "Reagendar" [ref=f3e161] [cursor=pointer]
+                      - button "Voltar para ideias" [ref=f3e166] [cursor=pointer]
+                - listitem [ref=f3e167]:
+                  - generic [ref=f3e169]:
+                    - generic [ref=f3e170]:
+                      - paragraph [ref=f3e171]: Antes e depois do canto de trabalho — ideia de carrossel.
+                      - generic [ref=f3e172]: Ideia
+                    - generic [ref=f3e175]:
+                      - generic [ref=f3e176]: Instagram
+                      - generic [ref=f3e178]: TikTok
+                    - group [ref=f3e181]:
+                      - generic "Agendar" [ref=f3e182] [cursor=pointer]
+                - listitem [ref=f3e186]:
+                  - generic [ref=f3e188]:
+                    - generic [ref=f3e189]:
+                      - paragraph [ref=f3e190]: Cinco perguntas para fazer antes de trocar de ferramenta.
+                      - generic [ref=f3e191]: Ideia
+                    - generic [ref=f3e194]:
+                      - generic [ref=f3e195]: LinkedIn
+                      - generic [ref=f3e197]: X
+                    - group [ref=f3e200]:
+                      - generic "Agendar" [ref=f3e201] [cursor=pointer]
+                - listitem [ref=f3e205]:
+                  - generic [ref=f3e207]:
+                    - generic [ref=f3e208]:
+                      - paragraph [ref=f3e209]: "Bastidores: como montamos o calendário editorial deste mês."
+                      - generic [ref=f3e210]: Ideia
+                    - generic [ref=f3e213]:
+                      - generic [ref=f3e214]: Instagram
+                      - generic [ref=f3e216]: LinkedIn
+                    - group [ref=f3e219]:
+                      - generic "Agendar" [ref=f3e220] [cursor=pointer]
+          - complementary "Próximas publicações" [ref=f3e224]:
+            - generic [ref=f3e225]:
+              - generic [ref=f3e226]:
+                - generic [ref=f3e227]: Na fila
+                - heading "Próximas publicações" [level=2] [ref=f3e231]
+              - list [ref=f3e232]:
+                - listitem [ref=f3e233]:
+                  - 'link "Checklist de lançamento: o que publicar na semana que antecede o lançamento. 09:30, 1 canal" [ref=f3e234] [cursor=pointer]':
+                    - /url: /publish#post-4
+                    - generic [aria-hidden] [ref=f3e235]:
+                      - strong [ref=f3e236]: "8"
+                      - generic [ref=f3e237]: nov
+                    - generic [ref=f3e238]:
+                      - strong [ref=f3e239]: "Checklist de lançamento: o que publicar na semana que antecede o lançamento."
+                      - generic [ref=f3e240]: 09:30, 1 canal
+                - listitem [ref=f3e241]:
+                  - link "Qual ferramenta mudou a sua forma de trabalhar este ano? 18:15, 2 canais" [ref=f3e242] [cursor=pointer]:
+                    - /url: /publish#post-5
+                    - generic [aria-hidden] [ref=f3e243]:
+                      - strong [ref=f3e244]: "11"
+                      - generic [ref=f3e245]: nov
+                    - generic [ref=f3e246]:
+                      - strong [ref=f3e247]: Qual ferramenta mudou a sua forma de trabalhar este ano?
+                      - generic [ref=f3e248]: 18:15, 2 canais
+              - link "Abrir calendário" [ref=f3e249] [cursor=pointer]:
+                - /url: /calendar
+            - generic [ref=f3e254]:
+              - strong [ref=f3e255]: Modo demonstração
+              - paragraph [ref=f3e256]: Os quatro canais são simulados. O agendamento fica salvo apenas neste computador.
+  - alert [ref=f3e257]

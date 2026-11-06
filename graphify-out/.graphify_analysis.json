@@ -1,0 +1,265 @@
+{
+  "communities": {
+    "0": [
+      "lib_channels_channelbyid",
+      "lib_dates_datewithoffset",
+      "lib_store",
+      "lib_store_assertchannellimit",
+      "lib_store_backupdatabase",
+      "lib_store_channels_by_id",
+      "lib_store_cleancontent",
+      "lib_store_migrate",
+      "lib_store_normalizechannels",
+      "lib_store_openstore",
+      "lib_store_openstore_insertidea",
+      "lib_store_parsejsonarray",
+      "lib_store_rowtoidea",
+      "lib_store_seedifempty",
+      "lib_store_splitlegacychannels",
+      "lib_tags",
+      "lib_tags_normalizetags",
+      "ref_node_assert",
+      "ref_node_fs",
+      "ref_node_os",
+      "ref_node_path",
+      "ref_node_sqlite",
+      "ref_node_test",
+      "test_store_test",
+      "test_store_test_withstore",
+      "test_store_test_writelegacydb"
+    ],
+    "1": [
+      "app_globals",
+      "app_layout",
+      "app_layout_body",
+      "app_layout_display",
+      "app_layout_metadata",
+      "app_layout_rootlayout",
+      "app_layout_viewport",
+      "components_chrome",
+      "components_chrome_channeloptions",
+      "components_chrome_messages",
+      "components_composer",
+      "components_composer_composer",
+      "components_composer_composer_togglechannel",
+      "components_icons",
+      "components_icons_brandmark",
+      "components_icons_icon",
+      "components_sidebar",
+      "components_sidebar_handles",
+      "components_sidebar_nav",
+      "components_sidebar_sidebar",
+      "lib_channels",
+      "lib_channels_channels",
+      "lib_channels_channels_by_id",
+      "lib_channels_countcharacters"
+    ],
+    "2": [
+      "app_calendar_page",
+      "app_calendar_page_calendarpage",
+      "app_calendar_page_capitalize",
+      "app_calendar_page_dynamic",
+      "app_calendar_page_metadata",
+      "app_calendar_page_pad",
+      "lib_dates",
+      "lib_dates_buildmonthgrid",
+      "lib_dates_datekey",
+      "lib_dates_formatdateshort",
+      "lib_dates_formatdatetime",
+      "lib_dates_formatlongdate",
+      "lib_dates_monthbounds",
+      "lib_dates_monthlabel",
+      "lib_dates_months",
+      "lib_dates_months_short",
+      "lib_dates_pad",
+      "lib_dates_parselocaldatetime",
+      "lib_dates_parsemonthparam",
+      "lib_dates_shiftmonth",
+      "lib_dates_weekday_labels",
+      "lib_dates_weekdays",
+      "test_dates_test"
+    ],
+    "3": [
+      "app_create_page",
+      "app_create_page_createpage",
+      "app_create_page_dynamic",
+      "app_create_page_idearow",
+      "app_create_page_metadata",
+      "app_create_page_scheduleform",
+      "app_create_page_status_labels",
+      "app_publish_page",
+      "app_publish_page_dynamic",
+      "app_publish_page_groupbyday",
+      "app_publish_page_metadata",
+      "app_publish_page_publishpage",
+      "components_chrome_banner",
+      "components_chrome_channelchip",
+      "components_posttools_posttools",
+      "components_tags",
+      "components_tags_tagchips",
+      "components_tags_tagfilter",
+      "components_tags_taghref",
+      "lib_dates_toinputvalue",
+      "lib_dates_tomorrowat"
+    ],
+    "4": [
+      "app_page",
+      "app_page_home",
+      "package",
+      "package_dependencies",
+      "package_dependencies_next",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_start",
+      "package_scripts_test",
+      "package_type",
+      "package_version",
+      "ref_next",
+      "ref_react",
+      "ref_react_dom"
+    ],
+    "5": [
+      "app_actions",
+      "app_actions_contextpath",
+      "app_actions_createideaaction",
+      "app_actions_deleteideaaction",
+      "app_actions_duplicateideaaction",
+      "app_actions_fail",
+      "app_actions_publishideaaction",
+      "app_actions_refresh",
+      "app_actions_scheduleideaaction",
+      "app_actions_unscheduleideaaction",
+      "app_actions_updateideaaction",
+      "components_deletebutton",
+      "components_deletebutton_deletebutton",
+      "components_posttools",
+      "lib_store_getstore"
+    ]
+  },
+  "cohesion": {
+    "0": 0.13538461538461538,
+    "1": 0.15579710144927536,
+    "2": 0.1976284584980237,
+    "3": 0.22857142857142856,
+    "4": 0.12280701754385964,
+    "5": 0.4095238095238095
+  },
+  "gods": [
+    {
+      "id": "components_icons_icon",
+      "label": "Icon()",
+      "degree": 18
+    },
+    {
+      "id": "lib_store_getstore",
+      "label": "getStore()",
+      "degree": 16
+    },
+    {
+      "id": "app_calendar_page_calendarpage",
+      "label": "CalendarPage()",
+      "degree": 12
+    },
+    {
+      "id": "app_create_page_createpage",
+      "label": "CreatePage()",
+      "degree": 12
+    },
+    {
+      "id": "ref_next",
+      "label": "next",
+      "degree": 11
+    },
+    {
+      "id": "app_publish_page_publishpage",
+      "label": "PublishPage()",
+      "degree": 11
+    },
+    {
+      "id": "lib_dates_toinputvalue",
+      "label": "toInputValue()",
+      "degree": 10
+    },
+    {
+      "id": "lib_channels_channelbyid",
+      "label": "channelById()",
+      "degree": 9
+    },
+    {
+      "id": "lib_store_openstore",
+      "label": "openStore()",
+      "degree": 9
+    },
+    {
+      "id": "app_actions_refresh",
+      "label": "refresh()",
+      "degree": 8
+    }
+  ],
+  "surprises": [
+    {
+      "source": "CreatePage()",
+      "target": "formatDateShort()",
+      "source_files": [
+        "app/create/page.js",
+        "lib/dates.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "IdeaRow()",
+      "target": "formatDateTime()",
+      "source_files": [
+        "app/create/page.js",
+        "lib/dates.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "RootLayout()",
+      "target": "Sidebar()",
+      "source_files": [
+        "app/layout.js",
+        "components/Sidebar.jsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `RootLayout()` unexpectedly reaches hub `Sidebar()`"
+    },
+    {
+      "source": "CalendarPage()",
+      "target": "Icon()",
+      "source_files": [
+        "app/calendar/page.js",
+        "components/Icons.jsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "CreatePage()",
+      "target": "Icon()",
+      "source_files": [
+        "app/create/page.js",
+        "components/Icons.jsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

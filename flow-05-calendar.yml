@@ -1,0 +1,137 @@
+- generic [active] [ref=f4e1]:
+  - link "Pular para o conteúdo" [ref=f4e2] [cursor=pointer]:
+    - /url: "#conteudo"
+  - generic [ref=f4e3]:
+    - complementary [ref=f4e4]:
+      - link "Trama, ir para a biblioteca" [ref=f4e5] [cursor=pointer]:
+        - /url: /create
+        - generic [ref=f4e10]:
+          - generic [ref=f4e11]: trama
+          - generic [ref=f4e12]: estúdio de conteúdo
+      - navigation "Navegação principal" [ref=f4e13]:
+        - link "Criar Ideias" [ref=f4e14] [cursor=pointer]:
+          - /url: /create
+          - generic [ref=f4e18]: Criar
+          - generic [ref=f4e19]: Ideias
+        - link "Publicar Fila" [ref=f4e20] [cursor=pointer]:
+          - /url: /publish
+          - generic [ref=f4e24]: Publicar
+          - generic [ref=f4e25]: Fila
+        - link "Calendário Ritmo" [ref=f4e26] [cursor=pointer]:
+          - /url: /calendar
+          - generic [ref=f4e30]: Calendário
+          - generic [ref=f4e31]: Ritmo
+      - generic [ref=f4e32]:
+        - generic [ref=f4e33]:
+          - generic [ref=f4e34]: Canais conectados
+          - generic [ref=f4e35]: "4"
+        - list [ref=f4e36]:
+          - listitem [ref=f4e37]:
+            - generic [ref=f4e39]: Instagram
+            - generic [ref=f4e40]: "@trama.studio"
+          - listitem [ref=f4e41]:
+            - generic [ref=f4e43]: LinkedIn
+            - generic [ref=f4e44]: trama-studio
+          - listitem [ref=f4e45]:
+            - generic [ref=f4e47]: X
+            - generic [ref=f4e48]: "@trama"
+          - listitem [ref=f4e49]:
+            - generic [ref=f4e51]: TikTok
+            - generic [ref=f4e52]: "@trama.studio"
+      - generic [ref=f4e55]:
+        - strong [ref=f4e56]: Ambiente local
+        - paragraph [ref=f4e57]: Canais simulados. Nada é publicado de verdade.
+    - main [ref=f4e58]:
+      - generic [ref=f4e754]:
+        - generic [ref=f4e755]:
+          - generic [ref=f4e756]:
+            - paragraph [ref=f4e757]: Calendário editorial
+            - heading "Calendário" [level=1] [ref=f4e758]
+            - paragraph [ref=f4e759]: Uma visão do mês inteiro. Ajuste o ritmo antes que a fila fique apertada.
+          - link "Nova ideia" [ref=f4e761] [cursor=pointer]:
+            - /url: /create
+        - region "Calendário de novembro de 2026" [ref=f4e764]:
+          - generic [ref=f4e765]:
+            - generic [ref=f4e766]:
+              - link "Mês anterior, outubro de 2026" [ref=f4e767] [cursor=pointer]:
+                - /url: /calendar?mes=2026-10
+              - generic [ref=f4e770]:
+                - heading "Novembro de 2026" [level=2] [ref=f4e771]
+                - generic [ref=f4e772]: 3 publicações
+              - link "Próximo mês, dezembro de 2026" [ref=f4e773] [cursor=pointer]:
+                - /url: /calendar?mes=2026-12
+            - generic "Canais" [ref=f4e776]:
+              - generic [ref=f4e777]: Instagram
+              - generic [ref=f4e779]: LinkedIn
+              - generic [ref=f4e781]: X
+              - generic [ref=f4e783]: TikTok
+          - generic [ref=f4e786]:
+            - generic [aria-hidden] [ref=f4e787]:
+              - generic [ref=f4e788]: seg
+              - generic [ref=f4e789]: ter
+              - generic [ref=f4e790]: qua
+              - generic [ref=f4e791]: qui
+              - generic [ref=f4e792]: sex
+              - generic [ref=f4e793]: sáb
+              - generic [ref=f4e794]: dom
+            - generic [ref=f4e795]:
+              - generic [ref=f4e796]: "26"
+              - generic [ref=f4e799]: "27"
+              - generic [ref=f4e802]: "28"
+              - generic [ref=f4e805]: "29"
+              - generic [ref=f4e808]: "30"
+              - generic [ref=f4e811]: "31"
+              - generic [ref=f4e814]: "1"
+              - generic [ref=f4e817]: "2"
+              - generic [ref=f4e820]: "3"
+              - generic [ref=f4e823]: "4"
+              - generic [ref=f4e826]: "5"
+              - generic [ref=f4e830]:
+                - generic [ref=f4e831]: "6"
+                - generic [ref=f4e832]: hoje
+              - generic [ref=f4e833]: "7"
+              - generic [ref=f4e836]:
+                - generic [ref=f4e837]: "8"
+                - 'link "09:30 Checklist de lançamento: o que publicar na semana que antecede o lançamento." [ref=f4e840] [cursor=pointer]':
+                  - /url: /publish#post-4
+                  - generic [ref=f4e841]: 09:30
+                  - generic [ref=f4e842]: "Checklist de lançamento: o que publicar na semana que antecede o lançamento."
+              - generic [ref=f4e843]: "9"
+              - generic [ref=f4e846]: "10"
+              - generic [ref=f4e849]:
+                - generic [ref=f4e850]: "11"
+                - link "18:15 Qual ferramenta mudou a sua forma de trabalhar este ano?" [ref=f4e853] [cursor=pointer]:
+                  - /url: /publish#post-5
+                  - generic [ref=f4e854]: 18:15
+                  - generic [ref=f4e855]: Qual ferramenta mudou a sua forma de trabalhar este ano?
+              - generic [ref=f4e856]: "12"
+              - generic [ref=f4e859]: "13"
+              - generic [ref=f4e862]: "14"
+              - generic [ref=f4e865]: "15"
+              - generic [ref=f4e868]: "16"
+              - generic [ref=f4e871]: "17"
+              - generic [ref=f4e874]: "18"
+              - generic [ref=f4e877]: "19"
+              - generic [ref=f4e880]: "20"
+              - generic [ref=f4e883]: "21"
+              - generic [ref=f4e886]: "22"
+              - generic [ref=f4e889]: "23"
+              - generic [ref=f4e892]:
+                - generic [ref=f4e893]: "24"
+                - 'link "15:00 Teste de fluxo: bastidores do guia de novembro." [ref=f4e896] [cursor=pointer]':
+                  - /url: /publish#post-6
+                  - generic [ref=f4e897]: 15:00
+                  - generic [ref=f4e898]: "Teste de fluxo: bastidores do guia de novembro."
+              - generic [ref=f4e899]: "25"
+              - generic [ref=f4e902]: "26"
+              - generic [ref=f4e905]: "27"
+              - generic [ref=f4e908]: "28"
+              - generic [ref=f4e911]: "29"
+              - generic [ref=f4e914]: "30"
+              - generic [ref=f4e917]: "1"
+              - generic [ref=f4e920]: "2"
+              - generic [ref=f4e923]: "3"
+              - generic [ref=f4e926]: "4"
+              - generic [ref=f4e929]: "5"
+              - generic [ref=f4e932]: "6"
+  - alert [ref=f4e257]: Calendário · Trama
