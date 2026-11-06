@@ -45,7 +45,7 @@ export async function signUpAction(formData) {
     return { ok: false, error: 'A senha deve ter pelo menos 6 caracteres.' };
   }
 
-  // Gera uma cor de avatar aleatória e elegante
+  // Cores de avatar consistentes e vibrantes
   const COLORS = ['#e11d48', '#0a66c2', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4'];
   const avatar_color = COLORS[Math.floor(Math.random() * COLORS.length)];
 
@@ -65,7 +65,6 @@ export async function signUpAction(formData) {
     return { ok: false, error: error.message };
   }
 
-  // Se o usuário foi criado e a sessão iniciada automaticamente
   if (data?.session) {
     revalidatePath('/', 'layout');
     redirect('/create');
@@ -101,7 +100,7 @@ export async function getProfileAndWorkspace() {
     .eq('id', user.id)
     .single();
 
-  // Busca workspace do usuário
+  // Busca workspaces do usuário
   const { data: members } = await supabase
     .from('workspace_members')
     .select('role, workspace:workspaces(id, name, slug)')
@@ -110,7 +109,7 @@ export async function getProfileAndWorkspace() {
   const currentWorkspace = members?.[0]?.workspace ?? null;
   const role = members?.[0]?.role ?? 'member';
 
-  // Busca todos os membros do workspace ativo
+  // Busca membros do workspace ativo
   let teamMembers = [];
   if (currentWorkspace?.id) {
     const { data: team } = await supabase
@@ -131,6 +130,57 @@ export async function getProfileAndWorkspace() {
     role,
     teamMembers,
   };
+}
+
+export async function createWorkspaceAction({ name }) {
+  const trimmed = String(name ?? '').trim();
+  if (!trimmed) {
+    return { ok: false, error: 'Informe um nome para o espaço de trabalho.' };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { ok: false, error: 'Usuário não autenticado.' };
+  }
+
+  const slug =
+    trimmed
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '') || 'espaco';
+
+  const { data: ws, error: wsError } = await supabase
+    .from('workspaces')
+    .insert({
+      name: trimmed,
+      slug: `${slug}-${Math.random().toString(36).slice(2, 6)}`,
+      created_by: user.id,
+    })
+    .select()
+    .single();
+
+  if (wsError || !ws) {
+    return { ok: false, error: 'Erro ao criar espaço: ' + (wsError?.message || '') };
+  }
+
+  const { error: memberError } = await supabase.from('workspace_members').insert({
+    workspace_id: ws.id,
+    user_id: user.id,
+    role: 'owner',
+  });
+
+  if (memberError) {
+    return { ok: false, error: 'Erro ao vincular membro: ' + memberError.message };
+  }
+
+  revalidatePath('/', 'layout');
+  return { ok: true, workspace: ws };
 }
 
 export async function inviteMemberAction({ email, role = 'member' }) {
@@ -159,22 +209,18 @@ export async function inviteMemberAction({ email, role = 'member' }) {
   }
 
   // Cria o convite
-  const { data: invite, error } = await supabase
-    .from('workspace_invites')
-    .insert({
-      workspace_id: member.workspace_id,
-      email: email.trim().toLowerCase(),
-      invited_by: user.id,
-      role,
-    })
-    .select()
-    .single();
+  const { error } = await supabase.from('workspace_invites').insert({
+    workspace_id: member.workspace_id,
+    email: email.trim().toLowerCase(),
+    invited_by: user.id,
+    role,
+  });
 
   if (error) {
     return { ok: false, error: 'Erro ao gerar convite: ' + error.message };
   }
 
-  // Verifica se o convidado já possui conta no sistema para disparar notificação
+  // Notifica o usuário convidado se ele já possuir conta
   const { data: invitedProfile } = await supabase
     .from('profiles')
     .select('id')
@@ -187,7 +233,7 @@ export async function inviteMemberAction({ email, role = 'member' }) {
       workspace_id: member.workspace_id,
       type: 'invite',
       title: 'Convite para equipe',
-      message: `Você foi convidado para participar de um espaço de trabalho no Trama.`,
+      message: 'Você foi convidado para colaborar em um espaço de trabalho no Trama.',
       link: '/create',
     });
   }
@@ -222,4 +268,3 @@ export async function markNotificationReadAction(notificationId) {
 
   return { ok: true };
 }
-

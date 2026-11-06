@@ -1,6 +1,12 @@
 {
   "communities": {
     "0": [
+      "app_calendar_page",
+      "app_calendar_page_calendarpage",
+      "app_calendar_page_capitalize",
+      "app_calendar_page_dynamic",
+      "app_calendar_page_metadata",
+      "app_calendar_page_pad",
       "app_create_page",
       "app_create_page_createpage",
       "app_create_page_dynamic",
@@ -8,36 +14,40 @@
       "app_create_page_metadata",
       "app_create_page_scheduleform",
       "app_create_page_status_labels",
-      "app_page",
-      "app_page_home",
-      "app_publish_page",
-      "app_publish_page_dynamic",
-      "app_publish_page_groupbyday",
-      "app_publish_page_metadata",
-      "app_publish_page_publishpage",
       "components_chrome_banner",
-      "components_chrome_channelchip",
       "components_icons_icon",
       "components_posttools_posttools",
-      "components_tags",
-      "components_tags_tagchips",
-      "components_tags_tagfilter",
-      "components_tags_taghref",
+      "lib_dates",
+      "lib_dates_buildmonthgrid",
+      "lib_dates_datekey",
+      "lib_dates_datewithoffset",
+      "lib_dates_formatdateshort",
+      "lib_dates_formatdatetime",
       "lib_dates_formatlongdate",
+      "lib_dates_monthbounds",
+      "lib_dates_monthlabel",
+      "lib_dates_months",
+      "lib_dates_months_short",
+      "lib_dates_pad",
+      "lib_dates_parsemonthparam",
+      "lib_dates_shiftmonth",
       "lib_dates_toinputvalue",
       "lib_dates_tomorrowat",
-      "ref_next"
+      "lib_dates_weekday_labels",
+      "lib_dates_weekdays",
+      "test_dates_test"
     ],
     "1": [
       "app_globals",
       "app_layout",
+      "app_layout_auth_paths",
       "app_layout_body",
       "app_layout_display",
       "app_layout_metadata",
       "app_layout_rootlayout",
       "app_layout_viewport",
       "components_chrome",
-      "components_chrome_channeloptions",
+      "components_chrome_channelchip",
       "components_chrome_messages",
       "components_composer",
       "components_icons",
@@ -49,15 +59,45 @@
       "components_sidebar_sidebar_savehandle",
       "components_sidebar_sidebar_startediting",
       "lib_channels",
+      "lib_channels_channelbyid",
       "lib_channels_channels",
       "lib_channels_channels_by_id",
+      "lib_channels_countcharacters",
       "lib_channels_default_handles",
       "lib_channels_formathandle",
+      "lib_store_assertchannellimit",
       "ref_react",
       "test_channels_test"
     ],
     "2": [
-      "lib_dates_datewithoffset",
+      "app_auth_actions",
+      "app_auth_actions_createworkspaceaction",
+      "app_auth_actions_getnotificationsaction",
+      "app_auth_actions_getprofileandworkspace",
+      "app_auth_actions_invitememberaction",
+      "app_auth_actions_marknotificationreadaction",
+      "app_auth_actions_signinaction",
+      "app_auth_actions_signoutaction",
+      "app_auth_actions_signupaction",
+      "app_auth_login_page",
+      "app_auth_login_page_loginpage",
+      "app_auth_login_page_metadata",
+      "components_authform",
+      "components_authform_authform",
+      "components_authform_authform_handlesubmit",
+      "components_authform_authform_switchmode",
+      "components_userprofilemenu",
+      "components_userprofilemenu_userprofilemenu",
+      "components_userprofilemenu_userprofilemenu_handleclickoutside",
+      "components_userprofilemenu_userprofilemenu_handlecreateworkspace",
+      "components_userprofilemenu_userprofilemenu_handlemarkread",
+      "components_userprofilemenu_userprofilemenu_handlesendinvite",
+      "components_userprofilemenu_userprofilemenu_loaddata",
+      "lib_supabase_server",
+      "lib_supabase_server_createadminclient",
+      "lib_supabase_server_createclient"
+    ],
+    "3": [
       "lib_dates_parselocaldatetime",
       "lib_store",
       "lib_store_backupdatabase",
@@ -84,10 +124,37 @@
       "test_store_test_withstore",
       "test_store_test_writelegacydb"
     ],
-    "3": [
+    "4": [
+      "lib_supabase_client",
+      "lib_supabase_client_createclient",
+      "middleware",
+      "middleware_config",
+      "middleware_middleware",
+      "package",
+      "package_dependencies",
+      "package_dependencies_next",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_supabase_ssr",
+      "package_dependencies_supabase_supabase_js",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_start",
+      "package_scripts_test",
+      "package_type",
+      "package_version",
+      "ref_react_dom",
+      "ref_supabase_ssr",
+      "ref_supabase_supabase_js"
+    ],
+    "5": [
       "app_actions_adaptideaaction",
       "app_actions_getaistatus",
       "app_actions_hooksideaaction",
+      "components_chrome_channeloptions",
       "components_composer_composer",
       "components_composer_composer_handleadapt",
       "components_composer_composer_handlehooks",
@@ -103,36 +170,10 @@
       "lib_ai_isaiavailable",
       "lib_ai_parsehooksresponse",
       "lib_ai_threehooks",
-      "lib_channels_channelbyid",
-      "lib_channels_countcharacters",
-      "lib_store_assertchannellimit",
       "test_ai_test",
       "test_ai_test_channel"
     ],
-    "4": [
-      "app_calendar_page",
-      "app_calendar_page_calendarpage",
-      "app_calendar_page_capitalize",
-      "app_calendar_page_dynamic",
-      "app_calendar_page_metadata",
-      "app_calendar_page_pad",
-      "lib_dates",
-      "lib_dates_buildmonthgrid",
-      "lib_dates_datekey",
-      "lib_dates_formatdateshort",
-      "lib_dates_formatdatetime",
-      "lib_dates_monthbounds",
-      "lib_dates_monthlabel",
-      "lib_dates_months",
-      "lib_dates_months_short",
-      "lib_dates_pad",
-      "lib_dates_parsemonthparam",
-      "lib_dates_shiftmonth",
-      "lib_dates_weekday_labels",
-      "lib_dates_weekdays",
-      "test_dates_test"
-    ],
-    "5": [
+    "6": [
       "app_actions",
       "app_actions_contextpath",
       "app_actions_createideaaction",
@@ -149,38 +190,47 @@
       "components_posttools",
       "lib_store_getstore"
     ],
-    "6": [
-      "package",
-      "package_dependencies",
-      "package_dependencies_next",
-      "package_dependencies_react",
-      "package_dependencies_react_dom",
-      "package_name",
-      "package_private",
-      "package_scripts",
-      "package_scripts_build",
-      "package_scripts_dev",
-      "package_scripts_start",
-      "package_scripts_test",
-      "package_type",
-      "package_version",
-      "ref_react_dom"
+    "7": [
+      "app_page",
+      "app_page_home",
+      "app_publish_page",
+      "app_publish_page_dynamic",
+      "app_publish_page_groupbyday",
+      "app_publish_page_metadata",
+      "app_publish_page_publishpage",
+      "components_tags",
+      "components_tags_tagchips",
+      "components_tags_tagfilter",
+      "components_tags_taghref",
+      "ref_next"
+    ],
+    "8": [
+      "next",
+      "next_config",
+      "next_config_nextconfig"
+    ],
+    "9": [
+      "app_auth_layout",
+      "app_auth_layout_authgrouplayout"
     ]
   },
   "cohesion": {
-    "0": 0.2,
-    "1": 0.13846153846153847,
-    "2": 0.13230769230769232,
-    "3": 0.16205533596837945,
-    "4": 0.21428571428571427,
-    "5": 0.4095238095238095,
-    "6": 0.14285714285714285
+    "0": 0.1495798319327731,
+    "1": 0.12413793103448276,
+    "2": 0.18461538461538463,
+    "3": 0.13666666666666666,
+    "4": 0.09420289855072464,
+    "5": 0.16666666666666666,
+    "6": 0.4095238095238095,
+    "7": 0.2878787878787879,
+    "8": 0.6666666666666666,
+    "9": 1.0
   },
   "gods": [
     {
       "id": "components_icons_icon",
       "label": "Icon()",
-      "degree": 18
+      "degree": 22
     },
     {
       "id": "lib_store_getstore",
@@ -188,18 +238,28 @@
       "degree": 16
     },
     {
+      "id": "components_userprofilemenu_userprofilemenu",
+      "label": "UserProfileMenu()",
+      "degree": 15
+    },
+    {
       "id": "components_composer_composer",
       "label": "Composer()",
       "degree": 14
     },
     {
-      "id": "app_create_page_createpage",
-      "label": "CreatePage()",
-      "degree": 12
+      "id": "ref_next",
+      "label": "next",
+      "degree": 14
     },
     {
       "id": "app_calendar_page_calendarpage",
       "label": "CalendarPage()",
+      "degree": 12
+    },
+    {
+      "id": "app_create_page_createpage",
+      "label": "CreatePage()",
       "degree": 12
     },
     {
@@ -213,71 +273,61 @@
       "degree": 11
     },
     {
-      "id": "ref_next",
-      "label": "next",
-      "degree": 11
-    },
-    {
       "id": "lib_dates_toinputvalue",
       "label": "toInputValue()",
       "degree": 10
-    },
-    {
-      "id": "lib_store_openstore",
-      "label": "openStore()",
-      "degree": 9
     }
   ],
   "surprises": [
     {
-      "source": "CreatePage()",
-      "target": "Composer()",
+      "source": "PublishPage()",
+      "target": "Banner()",
       "source_files": [
-        "app/create/page.js",
-        "components/Composer.jsx"
+        "app/publish/page.js",
+        "components/Chrome.jsx"
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
       "why": "connects across different repos/directories; bridges separate communities"
     },
     {
-      "source": "CreatePage()",
-      "target": "channelById()",
+      "source": "PublishPage()",
+      "target": "ChannelChip()",
       "source_files": [
-        "app/create/page.js",
-        "lib/channels.js"
+        "app/publish/page.js",
+        "components/Chrome.jsx"
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
       "why": "connects across different repos/directories; bridges separate communities"
     },
     {
-      "source": "CreatePage()",
-      "target": "formatDateShort()",
+      "source": "PublishPage()",
+      "target": "Icon()",
       "source_files": [
-        "app/create/page.js",
-        "lib/dates.js"
+        "app/publish/page.js",
+        "components/Icons.jsx"
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
       "why": "connects across different repos/directories; bridges separate communities"
     },
     {
-      "source": "CreatePage()",
-      "target": "getStore()",
+      "source": "PublishPage()",
+      "target": "PostTools()",
       "source_files": [
-        "app/create/page.js",
-        "lib/store.js"
+        "app/publish/page.js",
+        "components/PostTools.jsx"
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
       "why": "connects across different repos/directories; bridges separate communities"
     },
     {
-      "source": "IdeaRow()",
-      "target": "formatDateTime()",
+      "source": "PublishPage()",
+      "target": "formatLongDate()",
       "source_files": [
-        "app/create/page.js",
+        "app/publish/page.js",
         "lib/dates.js"
       ],
       "confidence": "EXTRACTED",

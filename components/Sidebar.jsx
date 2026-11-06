@@ -27,7 +27,11 @@ export default function Sidebar() {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (parsed && typeof parsed === 'object') {
-          setHandles((prev) => ({ ...prev, ...parsed }));
+          const cleaned = {};
+          for (const [k, v] of Object.entries(parsed)) {
+            cleaned[k] = formatHandle(k, v);
+          }
+          setHandles((prev) => ({ ...prev, ...cleaned }));
         }
       }
     } catch {
@@ -92,9 +96,15 @@ export default function Sidebar() {
 
       <div className="sidebar-section">
         <div className="sidebar-section-head">
-          <span>Canais conectados</span>
-          <span className="sidebar-count">{CHANNELS.length}</span>
+          <span>Canais de planejamento</span>
+          <span className="sidebar-badge-simulated" title="Canais simulados para cálculo de limites e formato">
+            Simulados
+          </span>
         </div>
+        <p className="sidebar-section-hint">
+          Defina o @ para testar limite e tom. Publicação direta em breve.
+        </p>
+
         <ul className="channel-list">
           {CHANNELS.map((channel) => {
             const isEditing = editingChannel === channel.id;
@@ -143,8 +153,8 @@ export default function Sidebar() {
                     type="button"
                     className="sidebar-handle-btn"
                     onClick={() => startEditing(channel.id, currentHandle)}
-                    title={`Clique para editar handle de ${channel.name}`}
-                    aria-label={`Editar handle de ${channel.name}, atualmente ${currentHandle}`}
+                    title={`Clique para editar @ de ${channel.name}`}
+                    aria-label={`Editar @ de ${channel.name}, atualmente ${currentHandle}`}
                   >
                     <span className="sidebar-handle">{currentHandle}</span>
                     <span className="sidebar-handle-pencil" aria-hidden="true">

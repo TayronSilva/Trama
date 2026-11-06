@@ -279,10 +279,10 @@ export default async function CreatePage({ searchParams }) {
           <div className="demo-note">
             <span className="env-dot" aria-hidden="true" />
             <div>
-              <strong>Modo demonstração</strong>
+              <strong>Canais simulados</strong>
               <p>
-                Os quatro canais são simulados. O agendamento fica salvo apenas
-                neste computador.
+                O Trama calcula limites e adapta formato para cada rede.
+                A conexão com APIs oficiais de publicação está em desenvolvimento.
               </p>
             </div>
           </div>

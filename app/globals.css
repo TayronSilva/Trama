@@ -2926,19 +2926,20 @@ h3 {
   transform: rotate(90deg);
 }
 
-/* Popover do Perfil / Equipe */
+/* Popover do Perfil / Equipe — Design Claro & Alto Contraste */
 .profile-popover {
   position: absolute;
-  bottom: calc(100% + 10px);
+  bottom: calc(100% + 12px);
   left: 0;
-  width: 270px;
-  background: var(--surface-raised);
-  border: 1px solid var(--border);
+  width: 290px;
+  background: #ffffff;
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius-md);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.06);
   z-index: 100;
   overflow: hidden;
   animation: popoverFadeIn 0.15s ease-out;
+  color: var(--ink);
 }
 
 @keyframes popoverFadeIn {
@@ -2953,20 +2954,23 @@ h3 {
 }
 
 .popover-header {
-  padding: 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 14px 16px;
+  background: var(--surface-raised);
+  border-bottom: 1px solid var(--line);
 }
 
 .popover-user {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .popover-avatar {
-  width: 36px;
-  height: 36px;
-  font-size: 14px;
+  width: 38px;
+  height: 38px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .popover-user-text {
@@ -2975,16 +2979,17 @@ h3 {
   min-width: 0;
 }
 
-.popover-user-text strong {
-  font-size: 13px;
-  color: var(--text);
+.popover-name-text {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.popover-email {
-  font-size: 10.5px;
+.popover-email-text {
+  font-size: 11.5px;
   color: var(--muted);
   white-space: nowrap;
   overflow: hidden;
@@ -2995,44 +3000,51 @@ h3 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding: 4px;
-  background: rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--paper-deep);
+  border-bottom: 1px solid var(--line);
+  gap: 4px;
 }
 
 .popover-tab {
-  padding: 6px;
-  font-size: 11.5px;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 600;
   color: var(--muted);
   border: none;
   background: transparent;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 6px;
   transition: all var(--transition);
 }
 
+.popover-tab:hover {
+  color: var(--ink);
+}
+
 .popover-tab.is-active {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text);
-  font-weight: 500;
+  background: #ffffff;
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .tab-pill {
-  padding: 1px 5px;
+  padding: 1px 6px;
   background: var(--accent);
-  color: #fff;
+  color: #ffffff;
   border-radius: 10px;
-  font-size: 9.5px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 700;
 }
 
 .popover-body {
-  padding: 12px;
-  max-height: 280px;
+  padding: 14px;
+  max-height: 300px;
   overflow-y: auto;
+  background: #ffffff;
 }
 
 .popover-section-label {
@@ -3040,43 +3052,47 @@ h3 {
   align-items: center;
   justify-content: space-between;
   font-size: 11px;
+  font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   margin-bottom: 8px;
 }
 
 .workspace-badge {
-  padding: 1px 6px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text);
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--paper-deep);
+  border: 1px solid var(--line);
+  color: var(--ink);
   text-transform: none;
-  font-size: 10px;
+  font-size: 10.5px;
+  font-weight: 600;
 }
 
 .popover-members-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 14px 0;
+  margin: 0 0 16px 0;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .member-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 6px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.025);
-  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
 }
 
 .member-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   flex: none;
 }
@@ -3086,17 +3102,22 @@ h3 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--text);
+  color: var(--ink);
+  font-weight: 500;
 }
 
 .member-role {
-  font-size: 10px;
+  font-size: 10.5px;
+  font-weight: 600;
   color: var(--muted);
+  background: var(--paper-deep);
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 .invite-form {
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
 }
 
 .invite-input-row {
@@ -3106,28 +3127,29 @@ h3 {
 
 .invite-input {
   flex: 1;
-  padding: 5px 8px;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-size: 11.5px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  font-size: 12px;
   font-family: inherit;
 }
 
 .invite-input:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 2px rgba(22, 33, 28, 0.1);
 }
 
 .invite-submit-btn {
-  padding: 5px 9px;
-  border-radius: 4px;
-  background: var(--accent);
-  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: #ffffff;
   border: none;
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 11.5px;
+  font-weight: 600;
   cursor: pointer;
   transition: opacity var(--transition);
 }
@@ -3138,104 +3160,203 @@ h3 {
 
 .invite-msg {
   display: block;
-  font-size: 10.5px;
+  font-size: 11px;
+  font-weight: 500;
   margin-top: 6px;
 }
 
 .invite-msg.is-error {
-  color: #fda4af;
+  color: #b91c1c;
 }
 
 .invite-msg.is-success {
-  color: #6ee7b7;
+  color: #047857;
 }
 
-/* Notificações */
+/* Criar Workspace inicial */
+.popover-create-workspace-box {
+  padding: 16px;
+}
+
+.workspace-intro-box {
+  margin-bottom: 12px;
+}
+
+.intro-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.intro-copy {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.create-ws-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ws-input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  font-size: 12.5px;
+  font-family: inherit;
+}
+
+.ws-input:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 2px rgba(22, 33, 28, 0.1);
+}
+
+.ws-btn-submit {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: #ffffff;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.ws-btn-submit:hover {
+  opacity: 0.9;
+}
+
+.ws-error-msg {
+  display: block;
+  font-size: 11px;
+  color: #b91c1c;
+  margin-top: 6px;
+}
+
+/* Notificações — Alto Contraste */
 .notifications-list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .notification-item {
-  padding: 8px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.02);
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: var(--paper);
+  border: 1px solid var(--line);
   cursor: pointer;
-  transition: background var(--transition);
+  transition: all var(--transition);
 }
 
 .notification-item.is-unread {
-  background: rgba(225, 29, 72, 0.07);
-  border-left: 2px solid var(--accent);
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-left: 3px solid var(--accent);
 }
 
 .notification-item:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--paper-deep);
 }
 
 .notif-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .notif-title {
-  font-size: 11.5px;
-  color: var(--text);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
 }
 
 .notif-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--accent);
 }
 
 .notif-msg {
-  font-size: 11px;
-  color: var(--muted);
-  margin: 0 0 4px 0;
-  line-height: 1.35;
+  font-size: 12px;
+  color: #374151;
+  margin: 0 0 6px 0;
+  line-height: 1.45;
 }
 
 .notif-time {
-  font-size: 9.5px;
-  color: #6b7d72;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #6b7280;
 }
 
 .notifications-empty {
   text-align: center;
   padding: 24px 0;
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--muted);
 }
 
+/* Popover Footer & Logout de Alto Contraste */
 .popover-footer {
-  padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.25);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 10px 14px;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
 }
 
 .popover-logout-btn {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   background: transparent;
-  border: none;
-  color: #fda4af;
-  font-size: 12px;
+  border: 1px solid transparent;
+  color: #b91c1c;
+  font-size: 12.5px;
+  font-weight: 600;
   cursor: pointer;
-  padding: 5px;
-  border-radius: 4px;
-  transition: background var(--transition);
+  padding: 7px;
+  border-radius: 6px;
+  transition: all var(--transition);
 }
 
 .popover-logout-btn:hover {
-  background: rgba(225, 29, 72, 0.12);
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+/* Sidebar Channels Notice */
+.sidebar-badge-simulated {
+  padding: 1px 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #93a297;
+  font-size: 9.5px;
+  font-weight: 500;
+}
+
+.sidebar-section-hint {
+  font-size: 10px;
+  color: #7b8a7f;
+  margin: 0 8px 10px;
+  line-height: 1.35;
 }
