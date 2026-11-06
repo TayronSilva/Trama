@@ -2,7 +2,9 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import { getStore } from '../lib/store';
+import { createClient } from '../lib/supabase/server';
 
 function refresh() {
   revalidatePath('/create');
@@ -18,10 +20,49 @@ function contextPath(formData) {
   return formData.get('from') === 'publish' ? '/publish' : '/create';
 }
 
+// Verifica sessao Supabase e retorna o userId, ou lança erro se nao autenticado.
+async function requireUser() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    throw new Error('Nao autenticado.');
+  }
+  return user.id;
+}
+
+// Protecao CSRF: valida que a requisicao vem da mesma origem (header Origin ou Referer).
+function assertCsrfSafe() {
+  const h = headers();
+  const origin = h.get('origin');
+  const referer = h.get('referer');
+  const allowed = origin || referer;
+  if (!allowed) {
+    throw new Error('Requicao bloqueada: origem nao identificada (CSRF).');
+  }
+  try {
+    const url = new URL(allowed);
+    const host = url.hostname;
+    if (
+      host !== 'localhost' &&
+      host !== '127.0.0.1' &&
+      !host.endsWith('.vercel.app') &&
+      !host.endsWith('.trama.app')
+    ) {
+      throw new Error('Requicao bloqueada: origem nao permitida (CSRF).');
+    }
+  } catch {
+    throw new Error('Requicao bloqueada: origem invalida (CSRF).');
+  }
+}
+
 export async function createIdeaAction(formData) {
   let error = '';
   try {
-    getStore().createIdeas({
+    const userId = await requireUser();
+    assertCsrfSafe();
+    getStore(userId).createIdeas({
       content: formData.get('content'),
       channels: formData.getAll('channels'),
       tags: formData.get('tags'),
@@ -43,7 +84,9 @@ export async function updateIdeaAction(formData) {
   let error = '';
 
   try {
-    getStore().updateIdea(id, patch);
+    const userId = await requireUser();
+    assertCsrfSafe();
+    getStore(userId).updateIdea(id, patch);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -59,7 +102,9 @@ export async function deleteIdeaAction(formData) {
   let error = '';
 
   try {
-    getStore().deleteIdea(id);
+    const userId = await requireUser();
+    assertCsrfSafe();
+    getStore(userId).deleteIdea(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -74,7 +119,9 @@ export async function duplicateIdeaAction(formData) {
   let copy;
 
   try {
-    copy = getStore().duplicateIdea(id);
+    const userId = await requireUser();
+    assertCsrfSafe();
+    copy = getStore(userId).duplicateIdea(id);
   } catch (cause) {
     const message = cause instanceof Error ? cause.message : 'Tente novamente.';
     fail(contextPath(formData), message);
@@ -90,7 +137,9 @@ export async function scheduleIdeaAction(formData) {
   let error = '';
 
   try {
-    getStore().scheduleIdea(id, { scheduledAt });
+    const userId = await requireUser();
+    assertCsrfSafe();
+    getStore(userId).scheduleIdea(id, { scheduledAt });
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -106,7 +155,9 @@ export async function unscheduleIdeaAction(formData) {
   let error = '';
 
   try {
-    getStore().unscheduleIdea(id);
+    const userId = await requireUser();
+    assertCsrfSafe();
+    getStore(userId).unscheduleIdea(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -121,7 +172,9 @@ export async function publishIdeaAction(formData) {
   let error = '';
 
   try {
-    getStore().markPublished(id);
+    const userId = await requireUser();
+    assertCsrfSafe();
+    getStore(userId).markPublished(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }

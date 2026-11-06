@@ -261,10 +261,17 @@ export async function getNotificationsAction() {
 
 export async function markNotificationReadAction(notificationId) {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { ok: false, error: 'Nao autenticado.' };
+  }
   await supabase
     .from('notifications')
     .update({ read: true })
-    .eq('id', notificationId);
+    .eq('id', notificationId)
+    .eq('user_id', user.id);
 
   return { ok: true };
 }
