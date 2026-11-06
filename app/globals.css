@@ -297,10 +297,15 @@ h3 {
   min-height: 33px;
   padding: 5px 8px;
   border-radius: 6px;
+  transition: background var(--transition);
 }
 
 .channel-list li:hover {
   background: rgba(255, 255, 255, 0.045);
+}
+
+.channel-list li.is-editing {
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .channel-dot {
@@ -321,12 +326,92 @@ h3 {
 }
 
 .sidebar-handle {
-  max-width: 88px;
+  max-width: 82px;
   color: #93a297;
   font-size: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.sidebar-handle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: right;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.sidebar-handle-btn:hover,
+.sidebar-handle-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+  outline: none;
+}
+
+.sidebar-handle-pencil {
+  display: inline-flex;
+  opacity: 0;
+  color: #8fa095;
+  transition: opacity var(--transition);
+}
+
+.channel-list li:hover .sidebar-handle-pencil,
+.sidebar-handle-btn:focus-visible .sidebar-handle-pencil {
+  opacity: 1;
+}
+
+.sidebar-handle-edit-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 124px;
+}
+
+.sidebar-handle-input {
+  width: 90px;
+  height: 22px;
+  padding: 1px 6px;
+  background: rgba(10, 15, 12, 0.6);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: #f7f3eb;
+  font-family: inherit;
+  font-size: 10.5px;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(225, 29, 72, 0.25);
+}
+
+.sidebar-handle-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.35);
+}
+
+.sidebar-handle-btn-save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.sidebar-handle-btn-save:hover {
+  opacity: 0.9;
 }
 
 .sidebar-footer {

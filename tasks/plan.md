@@ -115,3 +115,53 @@ Adicionar IA opcional (Gemini 3.6 Flash via REST, sem SDK; modelo configurável 
 - [x] Playwright com chave: Gemini 3.6 Flash retorna adaptação e hooks; app salva/agendou/publicou no modo simulado
 - [x] Novas screenshots em assets/ e galeria do README atualizada
 - [x] Graphify extração code-only atualizada ao final
+
+
+## Sprint 4: Equipes, Workspaces e Autoria (Pronto para Nuvem/Vercel)
+
+### Objective
+
+Evoluir o Trama para suportar colaboração em equipe com amigos e múltiplos projetos, preservando a simplicidade de uso (zero fricção) e preparando a arquitetura de dados para hospedagem na Vercel com banco em nuvem (Supabase ou Postgres/Prisma), sem espalhar regras de banco pela interface.
+
+### Decisões Arquiteturais
+
+1. **Storage Adapter Pattern (Isolamento Estrito)**:
+   - Todo acesso a dados permanece encapsulado em `lib/store.js`.
+   - Server Actions (`app/actions.js`) e páginas Server Components utilizam exclusivamente o contrato do Store.
+   - Isso permite alternar entre o modo local (`node:sqlite`) e o modo nuvem (Supabase / Postgres) através de uma variável de ambiente (`DATA_PROVIDER=sqlite|supabase`) sem alterar uma única linha de componentes visuais.
+
+2. **Modelo de Dados Multi-tenant e Autoria**:
+   - `workspaces`: `id`, `name`, `slug`, `created_at`, `created_by`.
+   - `workspace_members`: `workspace_id`, `user_id`, `role ('owner' | 'admin' | 'member')`.
+   - `users`: `id`, `name`, `email`, `avatar_color`, `created_at`.
+   - `ideas` (extensão retrocompatível): `workspace_id`, `created_by`, `created_by_name`, `updated_by`, `updated_by_name`, `updated_at`.
+
+3. **Autenticação Simples & Alternância de Amigos**:
+   - Sem fricção: seletor de usuário ativo no rodapé/sidebar (cookie simples `trama_user`).
+   - Usuários seed pré-configurados (ex: "Ronnie", "Kayky", "Leo") e opção de cadastrar novo amigo.
+   - Ao criar ou editar ideia, o autor e workspace ativos são anexados automaticamente via Server Action.
+
+### Sprint 4 Tasks
+
+- [x] Task 26: Edição e persistência do nome/handle dos canais conectados na Sidebar (`lib/channels.js` e `components/Sidebar.jsx`).
+- [x] Task 27: Testes unitários para `DEFAULT_HANDLES` e `formatHandle` em `test/channels.test.js`.
+- [ ] Task 28: Migração do Store — adicionar colunas de workspace e autoria (`workspace_id`, `created_by`, `created_by_name`, `updated_by`, `updated_by_name`, `updated_at`) com backup automático e migração retrocompatível idempotente em `lib/store.js`.
+- [ ] Task 29: Implementar tabelas de `workspaces`, `users` e `workspace_members` no Store com seeds iniciais de amigos e workspace padrão.
+- [ ] Task 30: Métodos de gerenciamento no Store: `listWorkspaces`, `createWorkspace`, `listUsers`, `createUser`, `getWorkspaceMembers`.
+- [ ] Task 31: Atualizar métodos de CRUD de ideias no Store para receber e persistir autor e workspace.
+- [ ] Task 32: Camada de sessão de usuário simples (`lib/session.js`) usando cookies (`next/headers`), com fallback para usuário padrão.
+- [ ] Task 33: Atualizar `app/actions.js` para propagar o usuário ativo em criações, edições, agendamentos e publicações.
+- [ ] Task 34: Componente `WorkspaceSwitcher` na Sidebar para alternar e criar espaços de trabalho.
+- [ ] Task 35: Componente `UserSwitcher` na Sidebar para alternar instantaneamente entre amigos.
+- [ ] Task 36: Exibir badges/chips de autoria nos cards da biblioteca (`IdeaCard.jsx`), fila (`PublishList.jsx`) e modal de edição.
+- [ ] Task 37: Escrever suíte de testes em `test/store.test.js` e `test/teams.test.js` cobrindo multi-workspace, migração de autoria e alternância de usuários.
+- [ ] Task 38: Validação completa: `npm test` verde, `npm run build` verde, fluxo manual testado e documentação atualizada.
+
+### Checkpoints Sprint 4
+
+- [x] Nomes/handles dos canais conectados são editáveis no hover/clique e persistidos localmente.
+- [ ] Migração do banco não apaga nenhuma ideia existente; backup gerado automaticamente.
+- [ ] Usuário consegue alternar entre amigos e ver quem criou/editou cada post.
+- [ ] Usuário consegue alternar workspaces isolando as publicações de cada projeto.
+- [ ] `npm test` e `npm run build` 100% verdes.
+- [ ] Código de dados estritamente desacoplado da UI, pronto para migração Supabase na Vercel.
