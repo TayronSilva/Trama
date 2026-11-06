@@ -97,9 +97,6 @@ export default function Sidebar() {
       <div className="sidebar-section">
         <div className="sidebar-section-head">
           <span>Canais de planejamento</span>
-          <span className="sidebar-badge-simulated" title="Canais simulados para cálculo de limites e formato">
-            Simulados
-          </span>
         </div>
         <p className="sidebar-section-hint">
           Defina o @ para testar limite e tom. Publicação direta em breve.
