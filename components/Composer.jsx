@@ -152,7 +152,12 @@ export function Composer({ action }) {
           <div className="ai-tools">
             <p className="ai-status">
               {aiAvailable ? (
-                <span>IA disponível: {aiStatus.model}</span>
+                <>
+                  <span>IA disponível</span>
+                  <span className="ai-model">
+                    {aiStatus.provider} · {aiStatus.model}
+                  </span>
+                </>
               ) : (
                 <span className="ai-warn">
                   Configure GEMINI_API_KEY no .env.local para usar a IA.
@@ -179,6 +184,9 @@ export function Composer({ action }) {
                 <Icon name="sparkles" size={14} />
                 {adapting ? 'Adaptando…' : 'Adaptar para o canal'}
               </button>
+              <span className="ai-caption">
+                Reescreve respeitando o limite e o tom do canal selecionado.
+              </span>
 
               <button
                 type="button"
@@ -196,6 +204,9 @@ export function Composer({ action }) {
                 <Icon name="sparkles" size={14} />
                 Três aberturas
               </button>
+              <span className="ai-caption">
+                Gera 3 variações da primeira frase (gancho) da sua ideia.
+              </span>
             </div>
 
             {aiError && (

@@ -1464,8 +1464,84 @@ h3 {
   font-size: 10.5px;
 }
 
-/* Empty states */
+/* IA — ferramentas do compositor */
 
+.ai-tools {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.ai-status {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.ai-model {
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ai-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.ai-caption {
+  margin-left: 6px;
+  font-size: 9.5px;
+  color: var(--muted);
+  line-height: 1.35;
+  max-width: 260px;
+}
+
+.ai-error {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: #b91c1c;
+  background: var(--danger-soft);
+  border: 1px solid #f0cec9;
+  border-radius: 6px;
+  padding: 6px 9px;
+}
+
+.ai-hooks {
+  margin-top: 10px;
+}
+
+.ai-hooks-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.ai-hook-list {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ai-hook {
+  white-space: nowrap;
+}
+
+/* Empty states */
 .empty-state {
   display: flex;
   align-items: center;
