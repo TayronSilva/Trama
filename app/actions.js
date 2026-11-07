@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
-import { getStore, resolveStoreScope } from '../lib/store';
+import { getStore, getUnifiedStore } from '../lib/store';
 import { createClient } from '../lib/supabase/server';
 
 function refresh() {
@@ -62,8 +62,8 @@ export async function createIdeaAction(formData) {
   try {
     await requireUser();
     await assertCsrfSafe();
-    const scopeId = await resolveStoreScope();
-    getStore(scopeId).createIdeas({
+    const store = await getUnifiedStore();
+    await store.createIdeas({
       content: formData.get('content'),
       channels: formData.getAll('channels'),
       tags: formData.get('tags'),
@@ -95,7 +95,7 @@ async function editorIdentity() {
 }
 
 export async function updateIdeaAction(formData) {
-  const id = Number(formData.get('id'));
+  const id = formData.get('id')?.toString();
   const from = contextPath(formData);
   const patch = { content: formData.get('content') };
   if (formData.has('tags')) patch.tags = formData.get('tags');
@@ -109,20 +109,21 @@ export async function updateIdeaAction(formData) {
     if (!editor) throw new Error('Nao autenticado.');
     await assertCsrfSafe();
 
-    const scopeId = await resolveStoreScope();
-    const store = getStore(scopeId);
-    const previous = store.getIdea(id);
+    const store = await getUnifiedStore();
+    const previous = await store.getIdea(id);
 
-    store.updateIdea(id, patch);
+    await store.updateIdea(id, patch);
 
-    const next = store.getIdea(id);
-    store.createIdeaEdit({
-      ideaId: id,
-      editorId: editor.userId,
-      editorName: editor.name,
-      previous,
-      next,
-    });
+    const next = await store.getIdea(id);
+    if (store.createIdeaEdit) {
+      await store.createIdeaEdit({
+        ideaId: id,
+        editorId: editor.userId,
+        editorName: editor.name,
+        previous,
+        next,
+      });
+    }
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -135,21 +136,20 @@ export async function updateIdeaAction(formData) {
 export async function getIdeaEditsAction(ideaId) {
   const editor = await editorIdentity();
   if (!editor) return [];
-  const scopeId = await resolveStoreScope();
-  const store = getStore(scopeId);
-  return store.listIdeaEdits(Number(ideaId));
+  const store = await getUnifiedStore();
+  return store.listIdeaEdits(ideaId);
 }
 
 export async function deleteIdeaAction(formData) {
-  const id = Number(formData.get('id'));
+  const id = formData.get('id')?.toString();
   const from = contextPath(formData);
   let error = '';
 
   try {
     await requireUser();
     await assertCsrfSafe();
-    const scopeId = await resolveStoreScope();
-    getStore(scopeId).deleteIdea(id);
+    const store = await getUnifiedStore();
+    await store.deleteIdea(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -160,14 +160,14 @@ export async function deleteIdeaAction(formData) {
 }
 
 export async function duplicateIdeaAction(formData) {
-  const id = Number(formData.get('id'));
+  const id = formData.get('id')?.toString();
   let copy;
 
   try {
     await requireUser();
     await assertCsrfSafe();
-    const scopeId = await resolveStoreScope();
-    copy = getStore(scopeId).duplicateIdea(id);
+    const store = await getUnifiedStore();
+    copy = await store.duplicateIdea(id);
   } catch (cause) {
     const message = cause instanceof Error ? cause.message : 'Tente novamente.';
     fail(contextPath(formData), message);
@@ -178,15 +178,15 @@ export async function duplicateIdeaAction(formData) {
 }
 
 export async function scheduleIdeaAction(formData) {
-  const id = Number(formData.get('id'));
+  const id = formData.get('id')?.toString();
   const scheduledAt = String(formData.get('scheduledAt') ?? '');
   let error = '';
 
   try {
     await requireUser();
     await assertCsrfSafe();
-    const scopeId = await resolveStoreScope();
-    getStore(scopeId).scheduleIdea(id, { scheduledAt });
+    const store = await getUnifiedStore();
+    await store.scheduleIdea(id, { scheduledAt });
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -197,15 +197,15 @@ export async function scheduleIdeaAction(formData) {
 }
 
 export async function unscheduleIdeaAction(formData) {
-  const id = Number(formData.get('id'));
+  const id = formData.get('id')?.toString();
   const from = formData.get('from') === 'publish' ? '/publish' : '/create';
   let error = '';
 
   try {
     await requireUser();
     await assertCsrfSafe();
-    const scopeId = await resolveStoreScope();
-    getStore(scopeId).unscheduleIdea(id);
+    const store = await getUnifiedStore();
+    await store.unscheduleIdea(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -216,14 +216,14 @@ export async function unscheduleIdeaAction(formData) {
 }
 
 export async function publishIdeaAction(formData) {
-  const id = Number(formData.get('id'));
+  const id = formData.get('id')?.toString();
   let error = '';
 
   try {
     await requireUser();
     await assertCsrfSafe();
-    const scopeId = await resolveStoreScope();
-    getStore(scopeId).markPublished(id);
+    const store = await getUnifiedStore();
+    await store.markPublished(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -264,7 +264,7 @@ export async function getAiStatus() {
 }
 
 export async function getWorkspaceActivityAction() {
-  const userId = await requireUser();
-  const store = getStore(userId);
+  await requireUser();
+  const store = await getUnifiedStore();
   return store.listActivities();
 }

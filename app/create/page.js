@@ -4,7 +4,7 @@ import {
   createIdeaAction,
   unscheduleIdeaAction,
 } from '../actions';
-import { getStore, resolveStoreScope } from '../../lib/store';
+import { getStore, getUnifiedStore } from '../../lib/store';
 import { channelById } from '../../lib/channels';
 import {
   formatDateShort,
@@ -117,11 +117,9 @@ function IdeaRow({ idea, defaultWhen }) {
 
 export default async function CreatePage({ searchParams }) {
   const params = await searchParams;
-  const scopeId = await resolveStoreScope();
-  const store = getStore(scopeId);
-  const counts = store.counts();
-  const allIdeas = store
-    .listIdeas()
+  const store = await getUnifiedStore();
+  const counts = await store.counts();
+  const allIdeas = (await store.listIdeas())
     .filter((idea) => idea.status !== 'published');
   const availableTags = [
     ...new Set(allIdeas.flatMap((idea) => idea.tags)),
@@ -130,7 +128,7 @@ export default async function CreatePage({ searchParams }) {
   const ideas = activeTag
     ? allIdeas.filter((idea) => idea.tags.includes(activeTag))
     : allIdeas;
-  const scheduled = store.listScheduled();
+  const scheduled = await store.listScheduled();
   const defaultWhen = tomorrowAt(9, 30);
   const today = formatLongDate(toInputValue(new Date()).slice(0, 10));
 

@@ -3,7 +3,7 @@ import {
   publishIdeaAction,
   unscheduleIdeaAction,
 } from '../actions';
-import { getStore, resolveStoreScope } from '../../lib/store';
+import { getStore, getUnifiedStore } from '../../lib/store';
 import {
   formatLongDate,
   toInputValue,
@@ -29,10 +29,9 @@ function groupByDay(posts) {
 
 export default async function PublishPage({ searchParams }) {
   const params = await searchParams;
-  const scopeId = await resolveStoreScope();
-  const store = getStore(scopeId);
-  const counts = store.counts();
-  const allScheduled = store.listScheduled();
+  const store = await getUnifiedStore();
+  const counts = await store.counts();
+  const allScheduled = await store.listScheduled();
   const availableTags = [
     ...new Set(allScheduled.flatMap((post) => post.tags)),
   ].sort((a, b) => a.localeCompare(b, 'pt-BR'));

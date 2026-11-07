@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getStore, resolveStoreScope } from '../../lib/store';
+import { getStore, getUnifiedStore } from '../../lib/store';
 import { CHANNELS, channelById } from '../../lib/channels';
 import {
   WEEKDAY_LABELS,
@@ -24,9 +24,8 @@ export default async function CalendarPage({ searchParams }) {
   const now = new Date();
   const { year, month } = parseMonthParam(params?.mes, now);
   const { start, end } = monthBounds(year, month);
-  const scopeId = await resolveStoreScope();
-  const store = getStore(scopeId);
-  const items = store.listScheduledBetween(start, end);
+  const store = await getUnifiedStore();
+  const items = await store.listScheduledBetween(start, end);
   const days = buildMonthGrid(year, month, now);
 
   const itemsByDay = new Map();
