@@ -3449,3 +3449,134 @@ h3 {
   margin: 0 8px 10px;
   line-height: 1.35;
 }
+
+/* Historico de edicoes de ideias */
+
+.idea-history {
+  margin-top: 16px;
+  padding: 0;
+}
+
+.idea-history .history-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  padding-left: 2px;
+}
+
+.idea-history .history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.idea-history .history-item {
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.idea-history .history-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.idea-history .history-editor {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.idea-history .history-at {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.idea-history .history-note {
+  margin: 0;
+  font-size: 10.5px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.idea-history .history-diff {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.idea-history .diff-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+  padding-left: 1px;
+}
+
+.idea-history .diff-before,
+.idea-history .diff-after {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px;
+  border-radius: 7px;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.idea-history .diff-before {
+  background: #fef3f2;
+  border: 1px solid #f0cec9;
+}
+
+.idea-history .diff-after {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.idea-history .diff-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.idea-history .diff-before .diff-tag {
+  color: var(--danger);
+}
+
+.idea-history .diff-after .diff-tag {
+  color: var(--success);
+}
+
+.idea-history .diff-text {
+  margin: 0;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+@media (max-width: 640px) {
+  .idea-history .history-item {
+    padding: 8px 10px;
+  }
+
+  .idea-history .diff-before,
+  .idea-history .diff-after {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+}

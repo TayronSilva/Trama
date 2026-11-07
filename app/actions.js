@@ -76,6 +76,23 @@ export async function createIdeaAction(formData) {
   redirect('/create?ok=criada');
 }
 
+async function editorIdentity() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return null;
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('name, email')
+    .eq('id', user.id)
+    .maybeSingle();
+  return {
+    userId: user.id,
+    name: profile?.name || user.email?.split('@')[0] || user.id,
+  };
+}
+
 export async function updateIdeaAction(formData) {
   const id = Number(formData.get('id'));
   const from = contextPath(formData);
@@ -84,9 +101,23 @@ export async function updateIdeaAction(formData) {
   let error = '';
 
   try {
-    const userId = await requireUser();
+    const editor = await editorIdentity();
+    if (!editor) throw new Error('Nao autenticado.');
     assertCsrfSafe();
-    getStore(userId).updateIdea(id, patch);
+
+    const store = getStore(editor.userId);
+    const previous = store.getIdea(id);
+
+    store.updateIdea(id, patch);
+
+    const next = store.getIdea(id);
+    store.createIdeaEdit({
+      ideaId: id,
+      editorId: editor.userId,
+      editorName: editor.name,
+      previous,
+      next,
+    });
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }

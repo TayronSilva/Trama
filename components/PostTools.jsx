@@ -1,5 +1,6 @@
 import { duplicateIdeaAction, updateIdeaAction } from '../app/actions';
 import { DeleteButton } from './DeleteButton';
+import IdeaHistory from './IdeaHistory';
 import { Icon } from './Icons';
 
 export function PostTools({ post, from = 'create' }) {
@@ -55,6 +56,7 @@ export function PostTools({ post, from = 'create' }) {
       </form>
 
       <DeleteButton id={post.id} from={from} />
+      <IdeaHistory ideaId={post.id} from={from} />
     </div>
   );
 }
