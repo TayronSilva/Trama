@@ -1,6 +1,8 @@
 import { Bricolage_Grotesque, Schibsted_Grotesk } from 'next/font/google';
 import { headers } from 'next/headers';
 import Sidebar from '../components/Sidebar';
+import { getUserChannelHandles } from '../app/auth/actions';
+import { createClient } from '../lib/supabase/server';
 import './globals.css';
 
 const display = Bricolage_Grotesque({
@@ -38,6 +40,27 @@ export default async function RootLayout({ children }) {
   const pathname = headersList.get('x-pathname') || '';
   const isAuth = AUTH_PATHS.some((p) => pathname.startsWith(p));
 
+  let userHandles = {};
+  let userId = '';
+
+  if (!isAuth) {
+    try {
+      const supabase = await createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        userId = user.id;
+        const res = await getUserChannelHandles();
+        if (res.ok && res.handles) {
+          userHandles = res.handles;
+        }
+      }
+    } catch {
+      // Falha ao carregar handles do servidor
+    }
+  }
+
   return (
     <html lang="pt-BR" className={`${display.variable} ${body.variable}`}>
       <body>
@@ -49,7 +72,7 @@ export default async function RootLayout({ children }) {
               Pular para o conteúdo
             </a>
             <div className="app-shell">
-              <Sidebar />
+              <Sidebar handles={userHandles} userId={userId} />
               <main id="conteudo" className="main">
                 {children}
               </main>
