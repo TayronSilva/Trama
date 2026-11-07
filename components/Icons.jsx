@@ -53,6 +53,12 @@ export function Icon({ name, size = 18, className = '' }) {
           <path d="m20 6-11 11-5-5" />
         </svg>
       );
+    case 'x':
+      return (
+        <svg {...common}>
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      );
     case 'arrow-right':
       return (
         <svg {...common}>
@@ -103,6 +109,13 @@ export function Icon({ name, size = 18, className = '' }) {
       return (
         <svg {...common}>
           <path d="M3 6h18M8 7V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3m4 3v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V10m9 9V10" />
+        </svg>
+      );
+    case 'bell':
+      return (
+        <svg {...common}>
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.7 21a2 2 0 0 1-3.4 0" />
         </svg>
       );
     case 'gear':

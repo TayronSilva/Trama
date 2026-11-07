@@ -55,6 +55,14 @@ export default function Sidebar({ handles = {}, userId = '' }) {
         </span>
       </Link>
 
+      <Link
+        href="/configuracoes"
+        className="mobile-settings-link"
+        aria-label="Abrir configurações"
+      >
+        <Icon name="gear" size={18} />
+      </Link>
+
       <nav className="nav" aria-label="Navegação principal">
         {NAV.map((item) => {
           const active = pathname === item.href || pathname.startsWith(`${item.href}/`);

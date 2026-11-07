@@ -10,6 +10,11 @@ import ConfiguracoesForm from './_form';
 
 export const dynamic = 'force-dynamic';
 
+export const metadata = {
+  title: 'Configurações',
+  description: 'Gerencie sua conta, espaço de trabalho e canais sociais.',
+};
+
 export default async function ConfiguracoesPage() {
   const supabase = await createClient();
   const {
@@ -26,6 +31,8 @@ export default async function ConfiguracoesPage() {
     profile: info.user,
     workspace: info.workspace,
     role: info.role,
+    teamMembers: info.teamMembers ?? [],
+    workspaces: info.workspaces ?? [],
     userHandles: handlesRes.ok ? handlesRes.handles : {},
     pendingInvites: pendingInvites ?? [],
   };
