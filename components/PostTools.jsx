@@ -74,7 +74,10 @@ export function PostTools({ post, from = 'create' }) {
       </form>
 
       <DeleteButton id={post.id} from={from} />
-      <IdeaHistory ideaId={post.id} from={from} />
+
+      <section className="idea-history-visible" aria-label="Historico de edicoes">
+        <IdeaHistory ideaId={post.id} />
+      </section>
     </div>
   );
 }

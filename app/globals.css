@@ -3452,9 +3452,18 @@ h3 {
 
 /* Historico de edicoes de ideias */
 
-.idea-history {
-  margin-top: 16px;
+.idea-history-visible {
+  margin-top: 12px;
   padding: 0;
+}
+
+.idea-history {
+  border-left: 3px solid var(--accent);
+  background: #fbfaf6;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-top: 12px;
 }
 
 .idea-history .history-title {
@@ -3465,6 +3474,18 @@ h3 {
   color: var(--muted);
   margin: 0 0 10px;
   padding-left: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.idea-history .history-title::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  flex: none;
+  background: var(--accent);
+  border-radius: 50%;
 }
 
 .idea-history .history-list {
@@ -3570,7 +3591,7 @@ h3 {
 }
 
 @media (max-width: 640px) {
-  .idea-history .history-item {
+  .idea-history {
     padding: 8px 10px;
   }
 
