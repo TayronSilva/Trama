@@ -27,6 +27,7 @@ function channelById(id) {
 export default function ConfiguracoesPage() {
   const router = useRouter();
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [userHandles, setUserHandles] = useState({});
   const [pendingInvites, setPendingInvites] = useState([]);
   const [message, setMessage] = useState(null);
@@ -37,20 +38,26 @@ export default function ConfiguracoesPage() {
   }, []);
 
   async function loadData() {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      router.push('/login');
-      return;
+    try {
+      const supabase = await createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+
+      const info = await getProfileAndWorkspace();
+      const handlesRes = await getUserChannelHandles();
+      const invites = await getPendingInvitesAction();
+
+      setData(info);
+      setUserHandles(handlesRes.ok ? handlesRes.handles : {});
+      setPendingInvites(invites ?? []);
+    } catch (err) {
+      setError(err.message || 'Erro ao carregar configurações.');
+    } finally {
+      setLoading(false);
     }
-
-    const info = await getProfileAndWorkspace();
-    const handlesRes = await getUserChannelHandles();
-    const invites = await getPendingInvitesAction();
-
-    setData(info);
-    setUserHandles(handlesRes.ok ? handlesRes.handles : {});
-    setPendingInvites(invites ?? []);
   }
 
   async function handleUpdateName(e) {
@@ -118,9 +125,10 @@ export default function ConfiguracoesPage() {
     }
   }
 
-  if (!data) return null;
+  if (loading) return <p className="page-subtitle">Carregando…</p>;
+  if (error) return <p className="banner error">{error}</p>;
 
-  const { user: profile, workspace, role } = data;
+  const { user: profile, workspace, role } = data || {};
 
   return (
     <div className="page">
