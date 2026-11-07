@@ -220,7 +220,8 @@ export async function inviteMemberAction({ email, role = 'member' }) {
     return { ok: false, error: 'Erro ao gerar convite: ' + error.message };
   }
 
-  // Notifica o usuário convidado se ele já possuir conta
+  // Se o usuário convidado já tem conta, vincula o user_id ao convite
+  // e cria notificação interna
   const { data: invitedProfile } = await supabase
     .from('profiles')
     .select('id')
@@ -228,6 +229,12 @@ export async function inviteMemberAction({ email, role = 'member' }) {
     .maybeSingle();
 
   if (invitedProfile?.id) {
+    await supabase
+      .from('workspace_invites')
+      .update({ user_id: invitedProfile.id })
+      .eq('email', email.trim().toLowerCase())
+      .is('accepted_at', null);
+
     await supabase.from('notifications').insert({
       user_id: invitedProfile.id,
       workspace_id: member.workspace_id,
@@ -248,15 +255,22 @@ export async function getPendingInvites() {
   } = await supabase.auth.getUser();
   if (!user) return [];
 
+  const userEmail = String(user.email ?? '').toLowerCase().trim();
+
   const { data: invites, error } = await supabase
     .from('workspace_invites')
     .select('*, workspace:workspaces(name, slug), inviter:profiles!invited_by(name, email)')
-    .eq('email', user.email)
     .is('accepted_at', null)
     .order('created_at', { ascending: false });
 
   if (error) return [];
-  return invites ?? [];
+
+  // Filtra por email (case-insensitive) no cliente, pois .eq() do Supabase
+  // é sensível a maiúsculas/minúsculas e pode falhar com emails cadastrados
+  // em formatos diferentes.
+  return (invites ?? []).filter(
+    (invite) => String(invite.email ?? '').toLowerCase().trim() === userEmail,
+  );
 }
 
 export async function acceptInvite(inviteId) {
@@ -268,12 +282,14 @@ export async function acceptInvite(inviteId) {
     return { ok: false, error: 'Não autenticado.' };
   }
 
-  // Busca o convite pendente para este email
+  const userEmail = String(user.email ?? '').toLowerCase().trim();
+
+  // Busca o convite pelo ID (não filtra por email na query para evitar
+  // problemas de case-sensitividade no banco).
   const { data: invite, error: inviteError } = await supabase
     .from('workspace_invites')
     .select('*')
     .eq('id', inviteId)
-    .eq('email', user.email)
     .is('accepted_at', null)
     .single();
 
@@ -281,7 +297,12 @@ export async function acceptInvite(inviteId) {
     return { ok: false, error: 'Convite não encontrado ou já aceito.' };
   }
 
-  // Adiciona usuário ao workspace como membro
+  // Verifica se o email do convite corresponde ao usuário logado
+  if (String(invite.email ?? '').toLowerCase().trim() !== userEmail) {
+    return { ok: false, error: 'Este convite não é para o seu e-mail.' };
+  }
+
+  // Adiciona usuário ao workspace como membro (não exige workspace próprio)
   const { error: memberError } = await supabase.from('workspace_members').insert({
     workspace_id: invite.workspace_id,
     user_id: user.id,
@@ -289,8 +310,17 @@ export async function acceptInvite(inviteId) {
   });
 
   if (memberError) {
-    return { ok: false, error: memberError.message };
+    // Se já for membro, ignora o erro e continua aceitando o convite
+    if (!memberError.message.includes('already exists') && !memberError.message.includes('duplicate')) {
+      return { ok: false, error: memberError.message };
+    }
   }
+
+  // Vincula o user_id ao convite para rastreamento futuro
+  await supabase
+    .from('workspace_invites')
+    .update({ user_id: user.id })
+    .eq('id', inviteId);
 
   // Marca convite como aceito
   const { error: updateError } = await supabase
