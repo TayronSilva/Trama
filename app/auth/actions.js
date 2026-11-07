@@ -379,6 +379,86 @@ export async function acceptInvite(inviteId) {
   return { ok: true, workspace_id: invite.workspace_id };
 }
 
+export async function updateUserName({ name }) {
+  const trimmed = String(name ?? '').trim();
+  if (!trimmed) {
+    return { ok: false, error: 'Informe um nome válido.' };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.updateUser({
+    data: { name: trimmed },
+  });
+
+  if (error) {
+    return { ok: false, error: error.message };
+  }
+
+  await supabase
+    .from('profiles')
+    .upsert({ id: user.id, name: trimmed }, { onConflict: 'id' });
+
+  revalidatePath('/', 'layout');
+  return { ok: true, name: trimmed };
+}
+
+export async function changePasswordAction({ newPassword }) {
+  if (!newPassword || newPassword.length < 6) {
+    return { ok: false, error: 'A senha deve ter pelo menos 6 caracteres.' };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (error) {
+    return { ok: false, error: error.message };
+  }
+
+  return { ok: true };
+}
+
+export async function updateWorkspaceNameAction({ name }) {
+  const trimmed = String(name ?? '').trim();
+  if (!trimmed) {
+    return { ok: false, error: 'Informe um nome válido para o espaço.' };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { ok: false, error: 'Não autenticado.' };
+  }
+
+  const { data: member } = await supabase
+    .from('workspace_members')
+    .select('workspace_id, role')
+    .eq('user_id', user.id)
+    .single();
+
+  if (!member || member.role !== 'owner') {
+    return { ok: false, error: 'Apenas o dono pode editar o nome do espaço.' };
+  }
+
+  const { error } = await supabase
+    .from('workspaces')
+    .update({ name: trimmed })
+    .eq('id', member.workspace_id);
+
+  if (error) {
+    return { ok: false, error: error.message };
+  }
+
+  revalidatePath('/', 'layout');
+  return { ok: true };
+}
+
 export async function getNotificationsAction() {
   const supabase = await createClient();
   const {

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { Icon } from './Icons';
 import {
@@ -18,7 +19,7 @@ export default function UserProfileMenu() {
   const [data, setData] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('menu'); // 'menu' | 'team' | 'notifications'
+  const [activeTab, setActiveTab] = useState('menu'); // 'menu' | 'team' | 'notifications' | 'settings'
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteStatus, setInviteStatus] = useState(null);
   const [loadingInvite, setLoadingInvite] = useState(false);
@@ -233,6 +234,12 @@ export default function UserProfileMenu() {
                   Notificações
                   {unreadCount > 0 && <span className="tab-pill">{unreadCount}</span>}
                 </button>
+                <Link href="/configuracoes" className="popover-tab">
+                  <>
+                    <Icon name="gear" size={14} />
+                    Configurações
+                  </>
+                </Link>
               </div>
 
               <div className="popover-body">
