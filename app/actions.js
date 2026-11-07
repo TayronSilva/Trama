@@ -33,8 +33,8 @@ async function requireUser() {
 }
 
 // Protecao CSRF: valida que a requisicao vem da mesma origem (header Origin ou Referer).
-function assertCsrfSafe() {
-  const h = headers();
+async function assertCsrfSafe() {
+  const h = await headers();
   const origin = h.get('origin');
   const referer = h.get('referer');
   const allowed = origin || referer;
@@ -61,7 +61,7 @@ export async function createIdeaAction(formData) {
   let error = '';
   try {
     const userId = await requireUser();
-    assertCsrfSafe();
+    await assertCsrfSafe();
     getStore(userId).createIdeas({
       content: formData.get('content'),
       channels: formData.getAll('channels'),
@@ -106,7 +106,7 @@ export async function updateIdeaAction(formData) {
   try {
     const editor = await editorIdentity();
     if (!editor) throw new Error('Nao autenticado.');
-    assertCsrfSafe();
+    await assertCsrfSafe();
 
     const store = getStore(editor.userId);
     const previous = store.getIdea(id);
@@ -144,7 +144,7 @@ export async function deleteIdeaAction(formData) {
 
   try {
     const userId = await requireUser();
-    assertCsrfSafe();
+    await assertCsrfSafe();
     getStore(userId).deleteIdea(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
@@ -161,7 +161,7 @@ export async function duplicateIdeaAction(formData) {
 
   try {
     const userId = await requireUser();
-    assertCsrfSafe();
+    await assertCsrfSafe();
     copy = getStore(userId).duplicateIdea(id);
   } catch (cause) {
     const message = cause instanceof Error ? cause.message : 'Tente novamente.';
@@ -179,7 +179,7 @@ export async function scheduleIdeaAction(formData) {
 
   try {
     const userId = await requireUser();
-    assertCsrfSafe();
+    await assertCsrfSafe();
     getStore(userId).scheduleIdea(id, { scheduledAt });
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
@@ -197,7 +197,7 @@ export async function unscheduleIdeaAction(formData) {
 
   try {
     const userId = await requireUser();
-    assertCsrfSafe();
+    await assertCsrfSafe();
     getStore(userId).unscheduleIdea(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
@@ -214,7 +214,7 @@ export async function publishIdeaAction(formData) {
 
   try {
     const userId = await requireUser();
-    assertCsrfSafe();
+    await assertCsrfSafe();
     getStore(userId).markPublished(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
