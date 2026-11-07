@@ -6,10 +6,12 @@ import {
   getProfileAndWorkspace,
   createWorkspaceAction,
   inviteMemberAction,
+  getPendingInvites as getPendingInvitesAction,
   getNotificationsAction,
   markNotificationReadAction,
   signOutAction,
 } from '../app/auth/actions';
+import PendingInvites from './PendingInvites';
 
 export default function UserProfileMenu() {
   const [data, setData] = useState(null);
@@ -19,6 +21,7 @@ export default function UserProfileMenu() {
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteStatus, setInviteStatus] = useState(null);
   const [loadingInvite, setLoadingInvite] = useState(false);
+  const [pendingInvites, setPendingInvites] = useState([]);
   const [newWorkspaceName, setNewWorkspaceName] = useState('');
   const [creatingWorkspace, setCreatingWorkspace] = useState(false);
   const [workspaceError, setWorkspaceError] = useState(null);
@@ -30,6 +33,8 @@ export default function UserProfileMenu() {
       setData(info);
       const notifs = await getNotificationsAction();
       setNotifications(notifs || []);
+      const pending = await getPendingInvitesAction();
+      setPendingInvites(pending || []);
     } catch {
       // Modo offline / sem autenticação
     }
@@ -252,6 +257,11 @@ export default function UserProfileMenu() {
                       <div className="popover-section-label">
                         <span>Convidar por e-mail</span>
                       </div>
+
+                      {pendingInvites.length > 0 && (
+                        <PendingInvites initialInvites={pendingInvites} />
+                      )}
+
                       <div className="invite-fields">
                         <input
                           type="email"

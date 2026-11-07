@@ -241,6 +241,81 @@ export async function inviteMemberAction({ email, role = 'member' }) {
   return { ok: true, message: `Convite enviado para ${email}.` };
 }
 
+export async function getPendingInvites() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data: invites, error } = await supabase
+    .from('workspace_invites')
+    .select('*, workspace:workspaces(name, slug), inviter:profiles!invited_by(name, email)')
+    .eq('email', user.email)
+    .is('accepted_at', null)
+    .order('created_at', { ascending: false });
+
+  if (error) return [];
+  return invites ?? [];
+}
+
+export async function acceptInvite(inviteId) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { ok: false, error: 'Não autenticado.' };
+  }
+
+  // Busca o convite pendente para este email
+  const { data: invite, error: inviteError } = await supabase
+    .from('workspace_invites')
+    .select('*')
+    .eq('id', inviteId)
+    .eq('email', user.email)
+    .is('accepted_at', null)
+    .single();
+
+  if (inviteError || !invite) {
+    return { ok: false, error: 'Convite não encontrado ou já aceito.' };
+  }
+
+  // Adiciona usuário ao workspace como membro
+  const { error: memberError } = await supabase.from('workspace_members').insert({
+    workspace_id: invite.workspace_id,
+    user_id: user.id,
+    role: invite.role || 'member',
+  });
+
+  if (memberError) {
+    return { ok: false, error: memberError.message };
+  }
+
+  // Marca convite como aceito
+  const { error: updateError } = await supabase
+    .from('workspace_invites')
+    .update({ accepted_at: new Date().toISOString() })
+    .eq('id', inviteId);
+
+  if (updateError) {
+    return { ok: false, error: updateError.message };
+  }
+
+  // Cria notificação de boas-vindas no workspace
+  await supabase.from('notifications').insert({
+    user_id: user.id,
+    workspace_id: invite.workspace_id,
+    type: 'invite',
+    title: 'Bem-vindo ao workspace',
+    message: `Você entrou no espaço ${invite.workspace?.name || 'do Trama'}.`,
+    link: '/create',
+  });
+
+  revalidatePath('/', 'layout');
+  return { ok: true, workspace_id: invite.workspace_id };
+}
+
 export async function getNotificationsAction() {
   const supabase = await createClient();
   const {
