@@ -70,7 +70,7 @@ test('createIdea trims content, keeps one channel and normalizes tags', () => {
   });
 });
 
-test('createIdea rejects invalid input and more than one channel', () => {
+test('createIdea rejects invalid input', () => {
   withStore((store) => {
     assert.throws(
       () => store.createIdea({ content: '   ', channels: ['x'] }),
@@ -84,18 +84,10 @@ test('createIdea rejects invalid input and more than one channel', () => {
       () => store.createIdea({ content: 'Ideia válida', channels: [] }),
       /canal/i,
     );
-    assert.throws(
-      () =>
-        store.createIdea({
-          content: 'Ideia válida',
-          channels: ['x', 'linkedin'],
-        }),
-      /único canal/i,
-    );
   });
 });
 
-test('createIdeas creates one independent record per channel', () => {
+test('createIdeas creates an idea with all selected channels', () => {
   withStore((store) => {
     const created = store.createIdeas({
       content: 'Mesmo texto para três canais.',
@@ -103,17 +95,12 @@ test('createIdeas creates one independent record per channel', () => {
       tags: 'editorial, novembro',
     });
 
-    assert.equal(created.length, 3);
-    assert.deepEqual(
-      created.map((idea) => idea.channels),
-      [['instagram'], ['linkedin'], ['x']],
-    );
-    for (const idea of created) {
-      assert.equal(idea.content, 'Mesmo texto para três canais.');
-      assert.deepEqual(idea.tags, ['editorial', 'novembro']);
-      assert.equal(idea.status, 'idea');
-    }
-    assert.equal(store.listIdeas().length, 3);
+    assert.equal(created.length, 1);
+    assert.deepEqual(created[0].channels, ['instagram', 'linkedin', 'x']);
+    assert.equal(created[0].content, 'Mesmo texto para três canais.');
+    assert.deepEqual(created[0].tags, ['editorial', 'novembro']);
+    assert.equal(created[0].status, 'idea');
+    assert.equal(store.listIdeas().length, 1);
   });
 });
 
@@ -206,26 +193,22 @@ test('duplicateIdea creates an unscheduled idea at the top of the library', () =
   });
 });
 
-test('scheduling and publishing remain independent per channel', () => {
+test('scheduling and publishing', () => {
   withStore((store) => {
-    const [first, second, third] = store.createIdeas({
+    const [first] = store.createIdeas({
       content: 'Três canais',
       channels: ['instagram', 'linkedin', 'x'],
     });
-    for (const idea of [first, second, third]) {
-      store.scheduleIdea(idea.id, { scheduledAt: '2026-11-20T14:30' });
-    }
-    assert.equal(store.listScheduled().length, 3);
-
-    store.unscheduleIdea(second.id);
-    assert.equal(store.getIdea(second.id).status, 'idea');
-    assert.equal(store.getIdea(first.id).status, 'scheduled');
-    assert.equal(store.getIdea(third.id).status, 'scheduled');
-
-    store.markPublished(third.id);
-    assert.equal(store.getIdea(third.id).status, 'published');
-    assert.equal(store.getIdea(first.id).status, 'scheduled');
+    store.scheduleIdea(first.id, { scheduledAt: '2026-11-20T14:30' });
     assert.equal(store.listScheduled().length, 1);
+
+    store.unscheduleIdea(first.id);
+    assert.equal(store.getIdea(first.id).status, 'idea');
+
+    store.scheduleIdea(first.id, { scheduledAt: '2026-11-20T14:30' });
+    store.markPublished(first.id);
+    assert.equal(store.getIdea(first.id).status, 'published');
+    assert.equal(store.listScheduled().length, 0);
   });
 });
 

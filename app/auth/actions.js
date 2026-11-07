@@ -67,7 +67,7 @@ async function adminInsertWorkspaceMember({ workspaceId, userId, role }) {
   return r;
 }
 
-async function getActiveMembership(supabase, userId) {
+export async function getActiveMembership(supabase, userId) {
   const { data: members } = await supabase
     .from('workspace_members')
     .select('role, workspace_id, workspace:workspaces(id, name, slug)')
@@ -209,9 +209,9 @@ export async function getProfileAndWorkspace() {
   if (currentWorkspace?.id) {
     const { data: memberships } = await supabase
       .from('workspace_members')
-      .select('role, user_id, created_at')
+      .select('role, user_id, joined_at')
       .eq('workspace_id', currentWorkspace.id)
-      .order('created_at', { ascending: true });
+      .order('joined_at', { ascending: true });
 
     const userIds = (memberships ?? [])
       .map((m) => m.user_id)
@@ -222,7 +222,7 @@ export async function getProfileAndWorkspace() {
       const { data: profiles } = await supabase
         .from('profiles')
         .select('id, name, email, avatar_color')
-        .in('user_id', userIds);
+        .in('id', userIds);
       profilesById = Object.fromEntries(
         (profiles ?? []).map((p) => [p.id, p]),
       );
@@ -230,7 +230,12 @@ export async function getProfileAndWorkspace() {
 
     teamMembers = (memberships ?? []).map((m) => ({
       role: m.role,
-      user: profilesById[m.user_id] ?? null,
+      user: profilesById[m.user_id] ?? {
+        id: m.user_id,
+        name: 'Membro',
+        email: '',
+        avatar_color: '#e11d48',
+      },
     }));
   }
 

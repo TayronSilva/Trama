@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
-import { getStore } from '../lib/store';
+import { getStore, resolveStoreScope } from '../lib/store';
 import { createClient } from '../lib/supabase/server';
 
 function refresh() {
@@ -60,9 +60,10 @@ async function assertCsrfSafe() {
 export async function createIdeaAction(formData) {
   let error = '';
   try {
-    const userId = await requireUser();
+    await requireUser();
     await assertCsrfSafe();
-    getStore(userId).createIdeas({
+    const scopeId = await resolveStoreScope();
+    getStore(scopeId).createIdeas({
       content: formData.get('content'),
       channels: formData.getAll('channels'),
       tags: formData.get('tags'),
@@ -108,7 +109,8 @@ export async function updateIdeaAction(formData) {
     if (!editor) throw new Error('Nao autenticado.');
     await assertCsrfSafe();
 
-    const store = getStore(editor.userId);
+    const scopeId = await resolveStoreScope();
+    const store = getStore(scopeId);
     const previous = store.getIdea(id);
 
     store.updateIdea(id, patch);
@@ -133,7 +135,8 @@ export async function updateIdeaAction(formData) {
 export async function getIdeaEditsAction(ideaId) {
   const editor = await editorIdentity();
   if (!editor) return [];
-  const store = getStore(editor.userId);
+  const scopeId = await resolveStoreScope();
+  const store = getStore(scopeId);
   return store.listIdeaEdits(Number(ideaId));
 }
 
@@ -143,9 +146,10 @@ export async function deleteIdeaAction(formData) {
   let error = '';
 
   try {
-    const userId = await requireUser();
+    await requireUser();
     await assertCsrfSafe();
-    getStore(userId).deleteIdea(id);
+    const scopeId = await resolveStoreScope();
+    getStore(scopeId).deleteIdea(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -160,9 +164,10 @@ export async function duplicateIdeaAction(formData) {
   let copy;
 
   try {
-    const userId = await requireUser();
+    await requireUser();
     await assertCsrfSafe();
-    copy = getStore(userId).duplicateIdea(id);
+    const scopeId = await resolveStoreScope();
+    copy = getStore(scopeId).duplicateIdea(id);
   } catch (cause) {
     const message = cause instanceof Error ? cause.message : 'Tente novamente.';
     fail(contextPath(formData), message);
@@ -178,9 +183,10 @@ export async function scheduleIdeaAction(formData) {
   let error = '';
 
   try {
-    const userId = await requireUser();
+    await requireUser();
     await assertCsrfSafe();
-    getStore(userId).scheduleIdea(id, { scheduledAt });
+    const scopeId = await resolveStoreScope();
+    getStore(scopeId).scheduleIdea(id, { scheduledAt });
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -196,9 +202,10 @@ export async function unscheduleIdeaAction(formData) {
   let error = '';
 
   try {
-    const userId = await requireUser();
+    await requireUser();
     await assertCsrfSafe();
-    getStore(userId).unscheduleIdea(id);
+    const scopeId = await resolveStoreScope();
+    getStore(scopeId).unscheduleIdea(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }
@@ -213,9 +220,10 @@ export async function publishIdeaAction(formData) {
   let error = '';
 
   try {
-    const userId = await requireUser();
+    await requireUser();
     await assertCsrfSafe();
-    getStore(userId).markPublished(id);
+    const scopeId = await resolveStoreScope();
+    getStore(scopeId).markPublished(id);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Tente novamente.';
   }

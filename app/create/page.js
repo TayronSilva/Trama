@@ -4,7 +4,7 @@ import {
   createIdeaAction,
   unscheduleIdeaAction,
 } from '../actions';
-import { getStore } from '../../lib/store';
+import { getStore, resolveStoreScope } from '../../lib/store';
 import { channelById } from '../../lib/channels';
 import {
   formatDateShort,
@@ -117,7 +117,8 @@ function IdeaRow({ idea, defaultWhen }) {
 
 export default async function CreatePage({ searchParams }) {
   const params = await searchParams;
-  const store = getStore();
+  const scopeId = await resolveStoreScope();
+  const store = getStore(scopeId);
   const counts = store.counts();
   const allIdeas = store
     .listIdeas()
