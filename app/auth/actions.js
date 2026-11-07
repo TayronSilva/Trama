@@ -248,6 +248,39 @@ export async function inviteMemberAction({ email, role = 'member' }) {
   return { ok: true, message: `Convite enviado para ${email}.` };
 }
 
+export async function deleteWorkspaceAction() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { ok: false, error: 'Não autenticado.' };
+  }
+
+  // Pega o workspace atual do usuário (deve ser owner)
+  const { data: member } = await supabase
+    .from('workspace_members')
+    .select('workspace_id, role')
+    .eq('user_id', user.id)
+    .single();
+
+  if (!member || member.role !== 'owner') {
+    return { ok: false, error: 'Apenas o dono pode excluir o espaço.' };
+  }
+
+  const { error } = await supabase
+    .from('workspaces')
+    .delete()
+    .eq('id', member.workspace_id);
+
+  if (error) {
+    return { ok: false, error: error.message };
+  }
+
+  revalidatePath('/', 'layout');
+  return { ok: true };
+}
+
 export async function getPendingInvites() {
   const supabase = await createClient();
   const {

@@ -99,6 +99,12 @@ export function Icon({ name, size = 18, className = '' }) {
           <path d="M7 17 17 7M8 7h9v9" />
         </svg>
       );
+    case 'trash':
+      return (
+        <svg {...common}>
+          <path d="M3 6h18M8 7V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3m4 3v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V10m9 9V10" />
+        </svg>
+      );
     default:
       return null;
   }

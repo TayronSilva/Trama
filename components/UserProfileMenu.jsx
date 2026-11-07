@@ -6,6 +6,7 @@ import {
   getProfileAndWorkspace,
   createWorkspaceAction,
   inviteMemberAction,
+  deleteWorkspaceAction,
   getPendingInvites as getPendingInvitesAction,
   getNotificationsAction,
   markNotificationReadAction,
@@ -73,6 +74,21 @@ export default function UserProfileMenu() {
       setWorkspaceError('Erro ao criar espaço.');
     } finally {
       setCreatingWorkspace(false);
+    }
+  }
+
+  async function handleDeleteWorkspace() {
+    if (!window.confirm('Tem certeza que deseja excluir este espaço? Isso apagará todos os dados.')) return;
+    try {
+      const res = await deleteWorkspaceAction();
+      if (res?.error) {
+        setWorkspaceError(res.error);
+      } else {
+        setNewWorkspaceName('');
+        await loadData();
+      }
+    } catch {
+      setWorkspaceError('Erro ao excluir espaço.');
     }
   }
 
@@ -253,6 +269,22 @@ export default function UserProfileMenu() {
                       )}
                     </ul>
 
+                    {role === 'owner' && (
+                      <>
+                        <div className="popover-section-label">
+                          <span>Espaço de trabalho</span>
+                        </div>
+                        <button
+                          type="button"
+                          className="button danger small"
+                          onClick={handleDeleteWorkspace}
+                        >
+                          <Icon name="trash" size={14} />
+                          Excluir espaço
+                        </button>
+                      </>
+                    )}
+
                     <form onSubmit={handleSendInvite} className="invite-form">
                       <div className="popover-section-label">
                         <span>Convidar por e-mail</span>
@@ -290,32 +322,40 @@ export default function UserProfileMenu() {
 
                 {activeTab === 'notifications' && (
                   <div className="popover-notifications-section">
-                    {notifications.length === 0 ? (
+                    {notifications.length === 0 && pendingInvites.length === 0 ? (
                       <div className="notifications-empty">
                         <p>Nenhuma notificação por enquanto.</p>
                       </div>
                     ) : (
-                      <ul className="notifications-list">
-                        {notifications.map((n) => (
-                          <li
-                            key={n.id}
-                            className={`notification-item ${n.read ? 'is-read' : 'is-unread'}`}
-                            onClick={() => !n.read && handleMarkRead(n.id)}
-                          >
-                            <div className="notif-head">
-                              <strong className="notif-title">{n.title}</strong>
-                              {!n.read && <span className="notif-dot" />}
-                            </div>
-                            <p className="notif-msg">{n.message}</p>
-                            <span className="notif-time">
-                              {new Date(n.created_at).toLocaleDateString('pt-BR', {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                              })}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
+                      <>
+                        {notifications.length > 0 && (
+                          <ul className="notifications-list">
+                            {notifications.map((n) => (
+                              <li
+                                key={n.id}
+                                className={`notification-item ${n.read ? 'is-read' : 'is-unread'}`}
+                                onClick={() => !n.read && handleMarkRead(n.id)}
+                              >
+                                <div className="notif-head">
+                                  <strong className="notif-title">{n.title}</strong>
+                                  {!n.read && <span className="notif-dot" />}
+                                </div>
+                                <p className="notif-msg">{n.message}</p>
+                                <span className="notif-time">
+                                  {new Date(n.created_at).toLocaleDateString('pt-BR', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                  })}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+
+                        {pendingInvites.length > 0 && (
+                          <PendingInvites initialInvites={pendingInvites} />
+                        )}
+                      </>
                     )}
                   </div>
                 )}
