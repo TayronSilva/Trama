@@ -254,3 +254,9 @@ export async function getAiStatus() {
   const { getAiConfig } = await import('../lib/ai.js');
   return getAiConfig();
 }
+
+export async function getWorkspaceActivityAction() {
+  const userId = await requireUser();
+  const store = getStore(userId);
+  return store.listActivities();
+}

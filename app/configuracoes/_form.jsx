@@ -18,6 +18,7 @@ import {
 } from '../auth/actions';
 import { CHANNELS } from '../../lib/channels';
 import { Icon } from '../../components/Icons';
+import WorkspaceActivity from '../../components/WorkspaceActivity';
 
 function roleLabel(role) {
   if (role === 'owner') return 'Dono';
@@ -595,6 +596,8 @@ export default function ConfiguracoesForm({ initial }) {
                       })}
                     </ul>
                   </div>
+
+                  <WorkspaceActivity />
 
                   {(role === 'owner' || role === 'admin') && (
                     <div className="settings-row">

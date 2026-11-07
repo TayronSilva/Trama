@@ -202,14 +202,36 @@ export async function getProfileAndWorkspace() {
   const currentWorkspace = active?.workspace ?? null;
   const role = active?.role ?? 'member';
 
-  // Busca membros do workspace ativo
+  // Busca membros do workspace ativo.
+  // O select evita o join user:profiles (sem FK definida no schema) para
+  // nao quebrar a leitura; os perfis sao buscados em seguida e combinados.
   let teamMembers = [];
   if (currentWorkspace?.id) {
-    const { data: team } = await supabase
+    const { data: memberships } = await supabase
       .from('workspace_members')
-      .select('role, user:profiles(id, name, email, avatar_color)')
-      .eq('workspace_id', currentWorkspace.id);
-    teamMembers = team ?? [];
+      .select('role, user_id, created_at')
+      .eq('workspace_id', currentWorkspace.id)
+      .order('created_at', { ascending: true });
+
+    const userIds = (memberships ?? [])
+      .map((m) => m.user_id)
+      .filter(Boolean);
+
+    let profilesById = {};
+    if (userIds.length) {
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, name, email, avatar_color')
+        .in('user_id', userIds);
+      profilesById = Object.fromEntries(
+        (profiles ?? []).map((p) => [p.id, p]),
+      );
+    }
+
+    teamMembers = (memberships ?? []).map((m) => ({
+      role: m.role,
+      user: profilesById[m.user_id] ?? null,
+    }));
   }
 
   return {
