@@ -98,6 +98,9 @@ export async function updateIdeaAction(formData) {
   const from = contextPath(formData);
   const patch = { content: formData.get('content') };
   if (formData.has('tags')) patch.tags = formData.get('tags');
+  if (formData.has('channels')) {
+    patch.channels = formData.getAll('channels');
+  }
   let error = '';
 
   try {
@@ -125,6 +128,13 @@ export async function updateIdeaAction(formData) {
   if (error) fail(from, error);
   refresh();
   redirect(`${from}?ok=editada`);
+}
+
+export async function getIdeaEditsAction(ideaId) {
+  const editor = await editorIdentity();
+  if (!editor) return [];
+  const store = getStore(editor.userId);
+  return store.listIdeaEdits(Number(ideaId));
 }
 
 export async function deleteIdeaAction(formData) {

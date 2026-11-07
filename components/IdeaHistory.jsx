@@ -1,18 +1,22 @@
-import { getStore } from '../lib/store';
+'use client';
 
-export default function IdeaHistory({ ideaId, from = 'create' }) {
-  const store = getStore();
-  const edits = store.listIdeaEdits(Number(ideaId));
+import { useEffect, useState } from 'react';
+import { getIdeaEditsAction } from '../app/actions';
 
-  if (edits.length === 0) {
-    return null;
-  }
+export default function IdeaHistory({ ideaId }) {
+  const [edits, setEdits] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getIdeaEditsAction(Number(ideaId)).then(setEdits).finally(() => setLoading(false));
+  }, [Number(ideaId)]);
+
+  if (loading) return null;
+  if (edits.length === 0) return null;
 
   return (
     <section className="idea-history" aria-label="Historico de edicoes">
-      <h3 className="history-title">
-        Historico de alteracoes
-      </h3>
+      <h3 className="history-title">Historico de alteracoes</h3>
       <ul className="history-list">
         {edits.map((edit) => (
           <li key={edit.id} className="history-item">
@@ -20,9 +24,7 @@ export default function IdeaHistory({ ideaId, from = 'create' }) {
               <span className="history-editor">
                 <strong>{edit.editorName || edit.editorId}</strong>
               </span>
-              <span className="history-at">
-                {formatDateTimeBR(edit.createdAt)}
-              </span>
+              <span className="history-at">{formatDateTimeBR(edit.createdAt)}</span>
             </div>
             {edit.previousContent && edit.newContent &&
               edit.previousContent !== edit.newContent && (
@@ -43,9 +45,7 @@ export default function IdeaHistory({ ideaId, from = 'create' }) {
               (edit.previousTags && edit.newTags &&
                 JSON.stringify(edit.previousTags) !==
                   JSON.stringify(edit.newTags))) && (
-              <p className="history-note">
-                Tags ou metadados atualizados.
-              </p>
+              <p className="history-note">Tags ou metadados atualizados.</p>
             )}
           </li>
         ))}

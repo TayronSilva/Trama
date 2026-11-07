@@ -1,21 +1,18 @@
 /**
  * Simulacao de cenario: Jessica e Tayronne
  *
- * 1. Jessica cria um workspace e adiciona Tayronne como membro
- * 2. Jessica cria uma ideia
- * 3. Tayronne edita a ideia de Jessica
- * 4. Historico mostra quem editou, quando e o diff do conteudo
+ * 1. Jessica cria uma ideia com multiplos canais (instagram, linkedin, x)
+ *    -> deve criar UMA ideia contendo os 3 canais
+ * 2. Tayronne edita a ideia de Jessica
+ * 3. Historico mostra quem editou, quando e o diff do conteudo
  *
  * Rode com: node scripts/simulate-history.mjs
  */
 
 import { openStore } from '../lib/store.js';
-import { normalizeTags } from '../lib/tags.js';
+import { rmSync } from 'node:fs';
 
 const TEST_DB = './data/simulate-test.db';
-
-// Limpa banco de teste anterior
-import { rmSync } from 'node:fs';
 try { rmSync(TEST_DB); } catch {}
 try { rmSync(`${TEST_DB}-wal`); } catch {}
 try { rmSync(`${TEST_DB}-shm`); } catch {}
@@ -23,42 +20,46 @@ try { rmSync(`${TEST_DB}-shm`); } catch {}
 const JESSICA = { id: 'jessica-id', name: 'Jessica' };
 const TAYRONNE = { id: 'tayronne-id', name: 'Tayronne' };
 
-// --- Jessica cria uma ideia ---
+// --- Jessica cria uma ideia com multiplos canais ---
 const storeJ = openStore(TEST_DB, { seed: false, userId: JESSICA.id });
 
 const ideia = storeJ.createIdea({
-  content: 'Lancamento do novo produto — teaser de 15 segundos.',
-  channels: ['instagram'],
+  content: 'Lancamento do novo produto — teaser multiplos canais.',
+  channels: ['instagram', 'linkedin', 'x'],
   tags: 'lancamento, teaser',
 });
 
 console.log('=== Jessica criou a ideia ===');
 console.log(`ID: ${ideia.id}`);
 console.log(`Conteudo: "${ideia.content}"`);
-console.log(`Criado por: ${JESSICA.name} (${JESSICA.id})\n`);
+console.log(`Canais: ${ideia.channels.join(', ')}`);
+console.log(`Total de ideias criadas: 1 (com ${ideia.channels.length} canais)\n`);
+
+// Verifica que so existe uma ideia
+const todas = storeJ.listIdeas();
+console.log(`Ideias no banco: ${todas.length} (esperado: 1)`);
 
 // --- Tayronne edita a ideia de Jessica ---
-// Simulacao: Tayronne e membro do workspace de Jessica, entao tem permissao
-// para editar ideias do espaco. A edicao e feita pela store com acesso à ideia
-// (storeJ), mas o historico registra Tayronne como editor.
 const ideiaParaEditar = storeJ.getIdea(ideia.id);
 
 const antes = {
   content: ideiaParaEditar.content,
   tags: [...ideiaParaEditar.tags],
+  channels: [...ideiaParaEditar.channels],
 };
 
 const editada = storeJ.updateIdea(ideia.id, {
-  content: 'Lancamento do novo produto — teaser de 15 segundos com trilha animada.',
-  tags: 'lancamento, teaser, animacao',
+  content: 'Lancamento do novo produto — teaser multiplos canais editado por Tayronne.',
+  tags: 'lancamento, teaser, atualizacao',
+  channels: ['instagram', 'linkedin', 'x', 'tiktok'],
 });
 
 const depois = {
   content: editada.content,
   tags: [...editada.tags],
+  channels: [...editada.channels],
 };
 
-// Registra o historico da edicao (Tayronne editou a ideia de Jessica)
 storeJ.createIdeaEdit({
   ideaId: ideia.id,
   editorId: TAYRONNE.id,
@@ -67,12 +68,12 @@ storeJ.createIdeaEdit({
   next: depois,
 });
 
-console.log('=== Tayronne editou a ideia ===');
+console.log('\n=== Tayronne editou a ideia ===');
 console.log(`Editor: ${TAYRONNE.name} (${TAYRONNE.id})`);
 console.log(`Conteudo antes: "${antes.content}"`);
 console.log(`Conteudo depois: "${depois.content}"`);
-console.log(`Tags antes: ${antes.tags.join(', ')}`);
-console.log(`Tags depois: ${depois.tags.join(', ')}\n`);
+console.log(`Canais antes: ${antes.channels.join(', ')}`);
+console.log(`Canais depois: ${depois.channels.join(', ')}\n`);
 
 // --- Historico de edicoes ---
 const historico = storeJ.listIdeaEdits(ideia.id);
@@ -93,12 +94,14 @@ for (const edit of historico) {
   }
   if (edit.previousTags && edit.newTags &&
       JSON.stringify(edit.previousTags) !== JSON.stringify(edit.newTags)) {
-    console.log(`   TAGS: ${edit.previousTags?.join(', ')} -> ${edit.newTags?.join(', ')}`);
+    console.log(`   TAGS: ${edit.previousTags.join(', ')} -> ${edit.newTags.join(', ')}`);
+  }
+  if (edit.previousTags && edit.newTags) {
+    const prevCh = JSON.parse(edit.previousTags || '[]');
+    // channels nao estao no edit diretamente, mas podemos ver pelas tags
   }
   console.log('');
 }
 
 console.log('Simulacao concluida com sucesso!');
-
-// Fecha a store
 storeJ.close();

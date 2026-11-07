@@ -86,6 +86,14 @@ export function Composer({ action }) {
 
   return (
     <form action={action} className="idea-form">
+      {selectedChannels.map((channel) => (
+        <input
+          key={channel.id}
+          type="hidden"
+          name="channels"
+          value={channel.id}
+        />
+      ))}
       <label className="sr-only" htmlFor="idea-content">
         Conteúdo da ideia
       </label>

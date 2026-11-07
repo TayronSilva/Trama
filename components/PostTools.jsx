@@ -17,6 +17,14 @@ export function PostTools({ post, from = 'create' }) {
         <form action={updateIdeaAction} className="edit-form">
           <input type="hidden" name="id" value={post.id} />
           <input type="hidden" name="from" value={from} />
+          {post.channels.map((channel) => (
+            <input
+              key={channel}
+              type="hidden"
+              name="channels"
+              value={channel}
+            />
+          ))}
           <label className="sr-only" htmlFor={contentId}>
             Editar conteúdo
           </label>
@@ -34,6 +42,16 @@ export function PostTools({ post, from = 'create' }) {
               name="tags"
               defaultValue={post.tags.join(', ')}
               placeholder="separadas por vírgula"
+            />
+          </label>
+          <label className="field edit-channels" style={{ marginTop: 8 }}>
+            <span>Canais</span>
+            <input
+              id={`edit-channels-${post.id}`}
+              name="channels-text"
+              defaultValue={post.channels.join(', ')}
+              placeholder="instagram, linkedin, x"
+              readOnly
             />
           </label>
           <div className="edit-form-actions">
